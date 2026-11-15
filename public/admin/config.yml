@@ -4,7 +4,7 @@
 
 backend:
   name: github
-  repo: HyoinShin/hyoinshin.github.io # user site → https://hyoinshin.github.io/
+  repo: hjkdesign/hjkdesign.github.io # org site → https://hjkdesign.github.io/
   branch: main
   auth_methods: [token]
 
