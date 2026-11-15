@@ -54,5 +54,22 @@ for (const name of [...files].sort()) {
 	}
 }
 
+// Small WebP copies of the thumbnails for the main-page prototypes (/lab): ~7 KB each
+// instead of the 1200px copy (GIFs keep only their first frame).
+const SMALL = path.join(OUT, "s");
+await mkdir(SMALL, { recursive: true });
+let small = 0;
+for (const name of new Set(works.map((w) => base(w.thumb)))) {
+	const src = path.join(MEDIA, name);
+	const dst = path.join(SMALL, `${name.replace(/\.[^.]+$/, "")}.webp`);
+	if ((await mtime(dst)) >= (await mtime(src))) continue;
+	await sharp(src, { limitInputPixels: false, animated: false })
+		.rotate()
+		.resize({ width: 256, withoutEnlargement: true })
+		.webp({ quality: 75 })
+		.toFile(dst);
+	small++;
+}
+
 await writeFile(SIZES, JSON.stringify(sizes, null, 1) + "\n");
-console.log(`images: ${files.size} referenced, ${built} rebuilt`);
+console.log(`images: ${files.size} referenced, ${built} rebuilt, ${small} small thumbs`);
