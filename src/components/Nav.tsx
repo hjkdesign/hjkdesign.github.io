@@ -7,8 +7,8 @@ import { profile } from "@/data/profile";
 import { pageSeq } from "@/lib/tracks";
 import s from "./ui.module.css";
 
-/** `current` lets a work page highlight its chapter. */
-export function Nav({ current }: { current?: string }) {
+/** `current` lets a work page highlight its chapter; `dark` forces the black bar (e.g. the 404 page). */
+export function Nav({ current, dark: forceDark }: { current?: string; dark?: boolean }) {
 	const pathname = usePathname();
 	// trailingSlash gives "/about/"; compare without it.
 	const path = current ?? pathname.replace(/(.)\/$/, "$1");
@@ -27,7 +27,7 @@ export function Nav({ current }: { current?: string }) {
 		};
 	}, [open]);
 	// Black pages (cover, About) get the black/pink bar.
-	const dark = path === "/" || path === "/about";
+	const dark = forceDark || path === "/" || path === "/about";
 	return (
 		<header
 			className={[s.nav, dark && s.dark, path === "/about" && s.whiteLinks]

@@ -4,6 +4,20 @@ import { profile } from "@/data/profile";
 import { type Chapter, pageSeq } from "@/lib/tracks";
 import s from "./sections.module.css";
 
+/** Not-found page: same black/pink as the cover, plain Inter "404" (script type is kept for headline pages). */
+export function NotFound() {
+	return (
+		<section className={s.cover}>
+			<h1 className={s.nfCode}>404</h1>
+			<p className={s.nfMsg}>페이지를 찾을 수 없습니다.</p>
+			<p className={s.nfSub}>주소가 바뀌었거나 삭제된 페이지예요.</p>
+			<Link href="/" className={s.cta}>
+				Home <span aria-hidden>→</span>
+			</Link>
+		</section>
+	);
+}
+
 export function Cover() {
 	return (
 		<section className={s.cover}>

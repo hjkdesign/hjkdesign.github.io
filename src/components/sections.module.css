@@ -44,6 +44,27 @@
   opacity: 0.75;
 }
 
+/* ---------- 404 ---------- */
+.nfCode {
+  font-size: clamp(96px, 11vw, 160px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.nfMsg {
+  margin-top: clamp(28px, 2.8vw, 40px);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 500;
+}
+
+.nfSub {
+  margin-top: 12px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--pink-soft);
+  opacity: 0.75;
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
