@@ -102,7 +102,10 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 function Overview({ info }: { info: WorkInfo }) {
 	const facts = [
 		info.brand && { label: "Brand", value: info.brand },
-		info.period && { label: "Period", value: info.period },
+		info.period && {
+			label: "Period",
+			value: <span className={s.nowrap}>{info.period}</span>,
+		},
 		info.contribution != null && {
 			label: "Contribution",
 			value: (

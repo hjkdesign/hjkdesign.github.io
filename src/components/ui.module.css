@@ -1,7 +1,7 @@
 .nav {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20; /* above the fixed TOP button, so the phone menu sheet covers it */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,7 +26,6 @@
 }
 
 .links {
-  position: relative; /* offset parent for the active-item scroll */
   display: flex;
   gap: 28px;
   white-space: nowrap;
@@ -39,6 +38,21 @@
 
 .links a.on {
   font-weight: 700;
+}
+
+/* Menu toggle: phones only. */
+.menuBtn {
+  display: none;
+  padding: 8px 0 8px 12px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 /* About: white menu, current page in pink. */
@@ -89,23 +103,51 @@
 }
 
 @media (max-width: 760px) {
-  /* Phones: brand on top, menu as a swipeable row underneath. */
+  /* Phones: brand left, Menu button right; the menu opens as a full-screen sheet. */
   .nav {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    gap: 4px;
-    padding: 0;
-    font-size: 13px;
+    padding: 0 20px;
+    /* Solid bar: backdrop-filter would also trap the fixed sheet inside the header. */
+    background: var(--cream);
+    backdrop-filter: none;
+  }
+  .dark {
+    background: var(--ink);
   }
   .brand {
-    padding: 0 20px;
-    font-size: 12px;
+    font-size: 13px;
+  }
+  .menuBtn {
+    display: block;
   }
   .links {
-    gap: 18px;
-    overflow-x: auto;
-    padding: 6px 20px 10px;
-    scrollbar-width: none;
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 24px 20px 40px;
+    overflow-y: auto;
+    background: inherit;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0s linear 0.2s;
+  }
+  .links.open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  .links a {
+    padding: 10px 0;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 }

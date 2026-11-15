@@ -160,6 +160,8 @@
 
 /* ---------- Contact ---------- */
 .contact {
+  /* Fill the first screen; the PREV link sits below the fold. */
+  min-height: calc(100svh - var(--nav-h));
   background: var(--pink);
   padding: 150px clamp(20px, 6.9vw, 100px) 48px clamp(20px, 8.3vw, 120px);
 }
