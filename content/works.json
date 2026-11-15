@@ -1,0 +1,249 @@
+{
+  "works": [
+    {
+      "id": "landing-01",
+      "category": "landing",
+      "thumb": "/media/thumbnail1.gif",
+      "images": [
+        "/media/landing1.jpg"
+      ]
+    },
+    {
+      "id": "landing-02",
+      "category": "landing",
+      "thumb": "/media/thumbnail2.gif",
+      "images": [
+        "/media/landing2.jpg"
+      ]
+    },
+    {
+      "id": "landing-03",
+      "category": "landing",
+      "thumb": "/media/thumbnail3.jpg",
+      "images": [
+        "/media/landing3.jpg"
+      ]
+    },
+    {
+      "id": "landing-04",
+      "category": "landing",
+      "thumb": "/media/thumbnail4.jpg",
+      "images": [
+        "/media/landing4.jpg"
+      ]
+    },
+    {
+      "id": "landing-05",
+      "category": "landing",
+      "thumb": "/media/thumbnail5.jpg",
+      "images": [
+        "/media/landing5.jpg"
+      ]
+    },
+    {
+      "id": "landing-06",
+      "category": "landing",
+      "thumb": "/media/thumbnail6.jpg",
+      "images": [
+        "/media/landing6.jpg"
+      ]
+    },
+    {
+      "id": "landing-07",
+      "category": "landing",
+      "thumb": "/media/thumbnail7.jpg",
+      "images": [
+        "/media/landing7.jpg"
+      ]
+    },
+    {
+      "id": "landing-08",
+      "category": "landing",
+      "thumb": "/media/thumbnail8.jpg",
+      "images": [
+        "/media/landing8-1.jpg",
+        "/media/landing8-2.jpg",
+        "/media/landing8-3.jpg",
+        "/media/landing8-4.jpg"
+      ]
+    },
+    {
+      "id": "landing-09",
+      "category": "landing",
+      "thumb": "/media/thumbnail9.jpg",
+      "images": [
+        "/media/landing9-1.jpg",
+        "/media/landing9-2.jpg"
+      ]
+    },
+    {
+      "id": "landing-10",
+      "category": "landing",
+      "thumb": "/media/thumbnail10.jpg",
+      "images": [
+        "/media/landing10.jpg"
+      ]
+    },
+    {
+      "id": "landing-11",
+      "category": "landing",
+      "thumb": "/media/thumbnail11.jpg",
+      "images": [
+        "/media/landing11.jpg"
+      ]
+    },
+    {
+      "id": "landing-12",
+      "category": "landing",
+      "thumb": "/media/thumbnail12.jpg",
+      "images": [
+        "/media/landing12.jpg"
+      ]
+    },
+    {
+      "id": "ad-sns",
+      "category": "ad",
+      "title": "SNS 광고",
+      "thumb": "/media/thumbnail31.jpg",
+      "images": [
+        "/media/ad2-1.jpg",
+        "/media/ad2-2.jpg",
+        "/media/ad1-1.jpg",
+        "/media/ad1-2.jpg"
+      ]
+    },
+    {
+      "id": "ad-kakao",
+      "category": "ad",
+      "title": "카카오톡 발송용 광고",
+      "thumb": "/media/thumbnail32.jpg",
+      "images": [
+        "/media/ad2-3.jpg",
+        "/media/ad2-4.jpg"
+      ]
+    },
+    {
+      "id": "ad-blog",
+      "category": "ad",
+      "title": "블로그 게시글 이미지 광고",
+      "thumb": "/media/thumbnail33.jpg",
+      "images": [
+        "/media/ad1-3.jpg",
+        "/media/ad1-4.jpg"
+      ]
+    },
+    {
+      "id": "character-illust",
+      "category": "character",
+      "title": "캐릭터 일러스트 디자인",
+      "thumb": "/media/thumbnail-character.jpg",
+      "images": [
+        "/media/crt1.jpg",
+        "/media/crt2.jpg",
+        "/media/crt3.jpg",
+        "/media/crt4.jpg",
+        "/media/crt5.jpg",
+        "/media/crt6.jpg"
+      ]
+    },
+    {
+      "id": "package-cushion",
+      "category": "package",
+      "title": "화장품 쿠션 패키지",
+      "thumb": "/media/thumbnail41.jpg",
+      "images": [
+        "/media/pck1.jpg",
+        "/media/pck2.jpg",
+        "/media/pck3.jpg"
+      ]
+    },
+    {
+      "id": "package-tint",
+      "category": "package",
+      "title": "화장품 틴트 패키지",
+      "thumb": "/media/thumbnail42.jpg",
+      "images": [
+        "/media/pck11.jpg",
+        "/media/pck12.jpg",
+        "/media/pck13.jpg",
+        "/media/pck14.jpg"
+      ]
+    },
+    {
+      "id": "poster-sale-1",
+      "category": "poster",
+      "title": "세일 이벤트 포스터",
+      "thumb": "/media/thumbnail21.jpg",
+      "images": [
+        "/media/poster1-1.jpg",
+        "/media/poster1-3.jpg",
+        "/media/poster1-5.jpg",
+        "/media/poster1-8.jpg",
+        "/media/poster1-4.jpg",
+        "/media/poster1-6.jpg"
+      ]
+    },
+    {
+      "id": "poster-sale-2",
+      "category": "poster",
+      "title": "세일 이벤트 포스터",
+      "thumb": "/media/thumbnail22.jpg",
+      "images": [
+        "/media/poster2-1.jpg",
+        "/media/poster2-2.jpg",
+        "/media/poster2-3.jpg",
+        "/media/poster2-4.jpg",
+        "/media/poster2-5.jpg",
+        "/media/poster2-6.jpg"
+      ]
+    },
+    {
+      "id": "poster-treatment",
+      "category": "poster",
+      "title": "의료 시술 소개 포스터",
+      "thumb": "/media/thumbnail23.jpg",
+      "images": [
+        "/media/poster3-1.jpg",
+        "/media/poster3-2.jpg",
+        "/media/poster3-3.jpg",
+        "/media/poster3-4.jpg"
+      ]
+    },
+    {
+      "id": "poster-coffee",
+      "category": "poster",
+      "title": "커피머신 비치 안내 포스터",
+      "thumb": "/media/thumbnail24.jpg",
+      "images": [
+        "/media/poster4-1.jpg",
+        "/media/poster4-2.jpg"
+      ]
+    },
+    {
+      "id": "poster-subway-1",
+      "category": "poster",
+      "title": "지하철 옥외광고",
+      "thumb": "/media/thumbnail25.jpg",
+      "images": [
+        "/media/subway-1.jpg",
+        "/media/subway-4.jpg",
+        "/media/subway-2.jpg",
+        "/media/subway-5.jpg"
+      ]
+    },
+    {
+      "id": "poster-subway-2",
+      "category": "poster",
+      "title": "지하철 옥외광고",
+      "thumb": "/media/thumbnail26.jpg",
+      "images": [
+        "/media/subway2-3.jpg",
+        "/media/subway2-5.jpg",
+        "/media/subway2-4.jpg",
+        "/media/subway2-6.jpg",
+        "/media/subway2-1.jpg",
+        "/media/subway2-2.jpg"
+      ]
+    }
+  ]
+}

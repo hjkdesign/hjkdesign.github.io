@@ -1,0 +1,28 @@
+{
+  "nameKr": "김효진",
+  "nameEn": "Hyojin Kim",
+  "role": "Graphic designer",
+  "intro": "그저 빛이 되고 싶은 디자이너, 김효진입니다.",
+  "bio": "[자기소개 2~3문장 — 어떤 디자인을 해왔고 무엇을 잘하는지 · 내용 입력 필요]",
+  "email": "email@example.com",
+  "phone": "010-0000-0000",
+  "credits": [
+    {
+      "label": "PRODUCED BY",
+      "value": "김효진 (Hyojin Kim) — Visual Designer"
+    },
+    {
+      "label": "RECORDED AT",
+      "value": "[회사명] · [기간]\n[회사명] · [기간]"
+    },
+    {
+      "label": "INSTRUMENTS",
+      "value": "Photoshop · Illustrator · Figma (확인 필요)"
+    },
+    {
+      "label": "GENRE",
+      "value": "Landing page · Advertisement · Character · Package · Poster"
+    }
+  ],
+  "resume": ""
+}

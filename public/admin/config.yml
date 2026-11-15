@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+# Portfolio admin (/admin). Only someone holding a GitHub token with write access
+# to this repository can save; GitHub checks it server-side.
+
+backend:
+  name: github
+  repo: DESIGNER/dong-website # TODO: designer's GitHub username / repo name
+  branch: main
+  auth_methods: [token]
+
+# Originals are stored in the repo; the build makes ≤1200px display copies in public/media.
+media_folder: /content/media
+public_folder: /media
+
+collections:
+  - name: site
+    label: 포트폴리오
+    files:
+      - name: works
+        label: 작업
+        file: content/works.json
+        format: json
+        fields:
+          - name: works
+            label: 작업 목록
+            label_singular: 작업
+            widget: list
+            summary: "{{category}} · {{title}}"
+            hint: 같은 분야 안에서는 이 목록의 순서대로 사이트에 나옵니다. 드래그해서 순서를 바꿀 수 있습니다.
+            fields:
+              # Plain string, not uuid: existing ids are page URLs (/works/landing-01/) and must never change.
+              - name: id
+                label: 작업 ID (주소에 쓰임)
+                widget: string
+                pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "영문 소문자, 숫자, 하이픈(-)만 쓸 수 있습니다. 예 poster-sale-3"]
+                hint: 사이트 주소에 쓰입니다(/works/poster-sale-3). 다른 작업과 겹치면 안 되고, 한 번 정하면 바꾸지 않는 것이 좋습니다.
+              - name: category
+                label: 분야
+                widget: select
+                options:
+                  - { label: Landing Page (랜딩페이지), value: landing }
+                  - { label: Advertisement (광고), value: ad }
+                  - { label: Character (캐릭터), value: character }
+                  - { label: Package (패키지), value: package }
+                  - { label: Poster / etc. (포스터 외), value: poster }
+              - name: title
+                label: 제목
+                widget: string
+                required: false
+                hint: 비워두면 "랜딩페이지 01"처럼 분야 이름과 순번으로 표시됩니다.
+              - name: thumb
+                label: 썸네일
+                widget: image
+                accept: image/jpeg,image/png,image/gif,image/webp
+                hint: 7:5 가로 비율로 잘려서 보입니다. GIF는 움직이는 그대로 나옵니다.
+              - name: images
+                label: 상세 이미지
+                label_singular: 이미지
+                widget: list
+                min: 1
+                hint: 위에서부터 순서대로 보입니다. 랜딩페이지는 틈 없이 이어 붙여 보여줍니다.
+                field:
+                  name: image
+                  label: 이미지
+                  widget: image
+                  accept: image/jpeg,image/png,image/gif,image/webp
+
+      - name: profile
+        label: 프로필
+        file: content/profile.json
+        format: json
+        fields:
+          - { name: nameKr, label: 이름 (한글), widget: string }
+          - { name: nameEn, label: 이름 (영문), widget: string }
+          - { name: role, label: 직함 (표지), widget: string }
+          - { name: intro, label: 한 줄 소개 (About), widget: string }
+          - { name: bio, label: 자기소개 (About), widget: text }
+          - { name: email, label: 이메일, widget: string }
+          - { name: phone, label: 전화번호, widget: string }
+          - name: credits
+            label: About 항목 (경력·툴 등)
+            label_singular: 항목
+            widget: list
+            summary: "{{label}}"
+            fields:
+              - { name: label, label: 제목 (예 RECORDED AT), widget: string }
+              - { name: value, label: 내용 (줄바꿈 가능), widget: text }
+          - name: resume
+            label: 이력서 PDF
+            widget: file
+            required: false
+            accept: application/pdf,.pdf
