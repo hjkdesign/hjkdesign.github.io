@@ -64,6 +64,44 @@ collections:
                   label: 이미지
                   widget: image
                   accept: image/jpeg,image/png,image/gif,image/webp
+              # Project overview (all optional; empty fields are hidden on the site)
+              - name: summary
+                label: 개요
+                widget: text
+                required: false
+                hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
+              - { name: client, label: 클라이언트, widget: string, required: false, hint: "예 Abijou 의원" }
+              - { name: period, label: 기간, widget: string, required: false, hint: "예 2024.03 – 2024.04" }
+              - name: contribution
+                label: 기여도 (%)
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                required: false
+              - name: media
+                label: 매체
+                label_singular: 매체
+                widget: list
+                required: false
+                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 모바일 웹, SNS, 인쇄물
+                field: { name: item, label: 매체, widget: string }
+              - name: role
+                label: 담당
+                label_singular: 담당
+                widget: list
+                required: false
+                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 기획, 디자인, 일러스트
+                field: { name: item, label: 담당, widget: string }
+              - name: tools
+                label: 툴
+                label_singular: 툴
+                widget: list
+                required: false
+                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 Photoshop, Illustrator
+                field: { name: item, label: 툴, widget: string }
+              - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
+              - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
 
       - name: profile
         label: 프로필

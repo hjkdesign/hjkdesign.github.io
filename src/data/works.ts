@@ -20,6 +20,20 @@ export type Work = {
 	title?: string;
 	thumb: string;
 	images: string[];
+	info: WorkInfo;
+};
+
+/** Project overview shown above the images. Every field is optional; empty ones are hidden. */
+export type WorkInfo = {
+	summary?: string;
+	client?: string;
+	period?: string;
+	contribution?: number; // 0–100 (%)
+	media: string[];
+	role: string[];
+	tools: string[];
+	challenge?: string;
+	result?: string;
 };
 
 export const categories: Category[] = [
@@ -56,6 +70,15 @@ type RawWork = {
 	title?: string;
 	thumb?: string;
 	images?: string[];
+} & Partial<Record<"summary" | "client" | "period" | "challenge" | "result", string>> &
+	Partial<Record<"media" | "role" | "tools", string[]>> & { contribution?: number | string };
+
+// The CMS may save an empty field as "", null or [] — treat all of those as "not set".
+const text = (v?: string) => v?.trim() || undefined;
+const list = (v?: string[]) => (v ?? []).map((x) => x?.trim()).filter(Boolean);
+const percent = (v?: number | string) => {
+	const n = Number(v);
+	return v === "" || v == null || Number.isNaN(n) ? undefined : Math.min(100, Math.max(0, n));
 };
 
 // Fail the build (and so the deploy) on incomplete CMS entries instead of publishing a broken page.
@@ -72,6 +95,17 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 		title: w.title || undefined,
 		thumb: name(w.thumb),
 		images: w.images.map(name),
+		info: {
+			summary: text(w.summary),
+			client: text(w.client),
+			period: text(w.period),
+			contribution: percent(w.contribution),
+			media: list(w.media),
+			role: list(w.role),
+			tools: list(w.tools),
+			challenge: text(w.challenge),
+			result: text(w.result),
+		},
 	};
 });
 

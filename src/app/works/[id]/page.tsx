@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/ui";
 import { profile } from "@/data/profile";
+import type { WorkInfo } from "@/data/works";
 import { chapterOf, findTrack, size, src, tracks } from "@/lib/tracks";
 import s from "./detail.module.css";
 
@@ -47,6 +48,7 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 						← {chapter.en}
 					</Link>
 					<h1 className={s.title}>{track.label}</h1>
+					<Overview info={track.info} />
 				</header>
 
 				<div className={`${s.images} ${continuous ? s.continuous : ""}`}>
@@ -92,5 +94,66 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 				TOP
 			</a>
 		</>
+	);
+}
+
+const Badges = ({ items }: { items: string[] }) => (
+	<ul className={s.badges}>
+		{items.map((x) => (
+			<li key={x}>{x}</li>
+		))}
+	</ul>
+);
+
+/** Project overview: lead text, a spec sheet of facts, then challenge / result. Empty parts are left out. */
+function Overview({ info }: { info: WorkInfo }) {
+	const facts = [
+		info.client && { label: "Client", value: info.client },
+		info.period && { label: "Period", value: info.period },
+		info.contribution != null && {
+			label: "Contribution",
+			value: (
+				<span className={s.meter}>
+					{info.contribution}%
+					<span aria-hidden className={s.meterBar}>
+						<span style={{ width: `${info.contribution}%` }} />
+					</span>
+				</span>
+			),
+		},
+		info.media.length > 0 && { label: "Media", value: <Badges items={info.media} /> },
+		info.role.length > 0 && { label: "Role", value: <Badges items={info.role} /> },
+		info.tools.length > 0 && { label: "Tools", value: <Badges items={info.tools} /> },
+	].filter((f) => !!f);
+	const story = [
+		info.challenge && { label: "Challenge", text: info.challenge },
+		info.result && { label: "Result", text: info.result },
+	].filter((f) => !!f);
+
+	if (!info.summary && !facts.length && !story.length) return null;
+	return (
+		<div className={s.overview}>
+			{info.summary && <p className={s.summary}>{info.summary}</p>}
+			{facts.length > 0 && (
+				<dl className={s.facts}>
+					{facts.map((f) => (
+						<div key={f.label}>
+							<dt>{f.label}</dt>
+							<dd>{f.value}</dd>
+						</div>
+					))}
+				</dl>
+			)}
+			{story.length > 0 && (
+				<div className={s.story}>
+					{story.map((f) => (
+						<section key={f.label}>
+							<h2>{f.label}</h2>
+							<p>{f.text}</p>
+						</section>
+					))}
+				</div>
+			)}
+		</div>
 	);
 }
