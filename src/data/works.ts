@@ -70,12 +70,24 @@ type RawWork = {
 	title?: string;
 	thumb?: string;
 	images?: string[];
-} & Partial<Record<"summary" | "client" | "period" | "challenge" | "result", string>> &
-	Partial<Record<"media" | "role" | "tools", string[]>> & { contribution?: number | string };
+} & Partial<
+	Record<"summary" | "client" | "periodStart" | "periodEnd" | "challenge" | "result", string>
+> &
+	Partial<Record<"media" | "role" | "tools", string | string[]>> & { contribution?: number | string };
 
 // The CMS may save an empty field as "", null or [] — treat all of those as "not set".
 const text = (v?: string) => v?.trim() || undefined;
-const list = (v?: string[]) => (v ?? []).map((x) => x?.trim()).filter(Boolean);
+// Badge fields are typed as "모바일 웹, SNS" in the CMS: split on commas (half- or full-width).
+const list = (v?: string | string[]) =>
+	[v ?? []]
+		.flat()
+		.flatMap((x) => String(x).split(/[,，、]/))
+		.map((x) => x.trim())
+		.filter(Boolean);
+const period = (start?: string, end?: string) => {
+	const [a, b] = [text(start), text(end)];
+	return a && b && a !== b ? `${a} – ${b}` : a || b;
+};
 const percent = (v?: number | string) => {
 	const n = Number(v);
 	return v === "" || v == null || Number.isNaN(n) ? undefined : Math.min(100, Math.max(0, n));
@@ -98,7 +110,7 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 		info: {
 			summary: text(w.summary),
 			client: text(w.client),
-			period: text(w.period),
+			period: period(w.periodStart, w.periodEnd),
 			contribution: percent(w.contribution),
 			media: list(w.media),
 			role: list(w.role),

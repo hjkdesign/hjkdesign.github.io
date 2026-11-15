@@ -71,7 +71,19 @@ collections:
                 required: false
                 hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
               - { name: client, label: 클라이언트, widget: string, required: false, hint: "예 Abijou 의원" }
-              - { name: period, label: 기간, widget: string, required: false, hint: "예 2024.03 – 2024.04" }
+              # Fixed YYYY.MM so every work shows its period the same way.
+              - name: periodStart
+                label: 기간 시작
+                widget: string
+                required: false
+                pattern: ["^\\d{4}\\.(0[1-9]|1[0-2])$", "연도.월 형식으로 입력해주세요. 예 2024.03"]
+                hint: "연도.월 (예 2024.03)"
+              - name: periodEnd
+                label: 기간 끝
+                widget: string
+                required: false
+                pattern: ["^\\d{4}\\.(0[1-9]|1[0-2])$", "연도.월 형식으로 입력해주세요. 예 2024.04"]
+                hint: "연도.월 (예 2024.04). 한 달 안에 끝났으면 비워두세요."
               - name: contribution
                 label: 기여도 (%)
                 widget: number
@@ -81,25 +93,19 @@ collections:
                 required: false
               - name: media
                 label: 매체
-                label_singular: 매체
-                widget: list
+                widget: string
                 required: false
-                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 모바일 웹, SNS, 인쇄물
-                field: { name: item, label: 매체, widget: string }
+                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 모바일 웹, SNS, 인쇄물"
               - name: role
                 label: 담당
-                label_singular: 담당
-                widget: list
+                widget: string
                 required: false
-                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 기획, 디자인, 일러스트
-                field: { name: item, label: 담당, widget: string }
+                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 기획, 디자인, 일러스트"
               - name: tools
                 label: 툴
-                label_singular: 툴
-                widget: list
+                widget: string
                 required: false
-                hint: 하나씩 추가하면 뱃지로 나옵니다. 예 Photoshop, Illustrator
-                field: { name: item, label: 툴, widget: string }
+                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 Photoshop, Illustrator"
               - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
               - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
 
