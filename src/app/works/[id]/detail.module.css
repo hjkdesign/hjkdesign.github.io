@@ -48,7 +48,7 @@
 
 .facts {
   display: grid;
-  /* 3 columns: text facts (client/period/contribution) on one row, badge facts below. */
+  /* 3 columns: text facts (brand/period/contribution) on one row, badge facts below. */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px 40px;
   margin-top: 36px;

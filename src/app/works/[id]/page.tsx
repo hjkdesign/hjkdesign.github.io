@@ -108,7 +108,7 @@ const Badges = ({ items }: { items: string[] }) => (
 /** Project overview: lead text, a spec sheet of facts, then challenge / result. Empty parts are left out. */
 function Overview({ info }: { info: WorkInfo }) {
 	const facts = [
-		info.client && { label: "Client", value: info.client },
+		info.brand && { label: "Brand", value: info.brand },
 		info.period && { label: "Period", value: info.period },
 		info.contribution != null && {
 			label: "Contribution",

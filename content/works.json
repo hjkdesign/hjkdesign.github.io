@@ -9,14 +9,14 @@
         "/media/landing1.jpg"
       ],
       "summary": "- 2022년 아비쥬 연말 프로모션 시술 가격 랜딩페이지\n- 아비쥬 홈페이지 오픈",
-      "client": "아비쥬",
       "period": "2022.11 ~ 2022.12",
       "contribution": 100,
       "media": "웹",
       "role": "디자인",
       "tools": "포토샵",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": "아비쥬"
     },
     {
       "id": "landing-02",
@@ -27,14 +27,14 @@
         "/media/landing2.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-03",
@@ -45,14 +45,14 @@
         "/media/landing3.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-04",
@@ -63,14 +63,14 @@
         "/media/landing4.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-05",
@@ -81,14 +81,14 @@
         "/media/landing5.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-06",
@@ -99,14 +99,14 @@
         "/media/landing6.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-07",
@@ -117,14 +117,14 @@
         "/media/landing7.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-08",
@@ -138,14 +138,14 @@
         "/media/landing8-4.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-09",
@@ -157,14 +157,14 @@
         "/media/landing9-2.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-10",
@@ -175,14 +175,14 @@
         "/media/landing10.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-11",
@@ -193,14 +193,14 @@
         "/media/landing11.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "landing-12",
@@ -211,14 +211,14 @@
         "/media/landing12.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "ad-sns",
@@ -232,14 +232,14 @@
         "/media/ad1-2.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "ad-kakao",
@@ -251,14 +251,14 @@
         "/media/ad2-4.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "ad-blog",
@@ -270,14 +270,14 @@
         "/media/ad1-4.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "character-illust",
@@ -293,14 +293,14 @@
         "/media/crt6.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "package-cushion",
@@ -313,14 +313,14 @@
         "/media/pck3.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "package-tint",
@@ -334,14 +334,14 @@
         "/media/pck14.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-sale-1",
@@ -357,14 +357,14 @@
         "/media/poster1-6.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-sale-2",
@@ -380,14 +380,14 @@
         "/media/poster2-6.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-treatment",
@@ -401,14 +401,14 @@
         "/media/poster3-4.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-coffee",
@@ -420,14 +420,14 @@
         "/media/poster4-2.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-subway-1",
@@ -441,14 +441,14 @@
         "/media/subway-5.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     },
     {
       "id": "poster-subway-2",
@@ -464,14 +464,14 @@
         "/media/subway2-2.jpg"
       ],
       "summary": "",
-      "client": "",
       "period": "",
       "contribution": null,
       "media": "",
       "role": "",
       "tools": "",
       "challenge": "",
-      "result": ""
+      "result": "",
+      "brand": ""
     }
   ]
 }

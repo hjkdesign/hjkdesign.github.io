@@ -26,7 +26,7 @@ export type Work = {
 /** Project overview shown above the images. Every field is optional; empty ones are hidden. */
 export type WorkInfo = {
 	summary?: string;
-	client?: string;
+	brand?: string;
 	period?: string;
 	contribution?: number; // 0–100 (%)
 	media: string[];
@@ -71,7 +71,7 @@ type RawWork = {
 	thumb?: string;
 	images?: string[];
 } & Partial<
-	Record<"summary" | "client" | "period" | "challenge" | "result", string>
+	Record<"summary" | "brand" | "period" | "challenge" | "result", string>
 > &
 	Partial<Record<"media" | "role" | "tools", string | string[]>> & { contribution?: number | string };
 
@@ -114,7 +114,7 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 		images: w.images.map(name),
 		info: {
 			summary: text(w.summary),
-			client: text(w.client),
+			brand: text(w.brand),
 			period: period(w.period),
 			contribution: percent(w.contribution),
 			media: list(w.media),
