@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: "알림 테스트: 빌드를 일부러 실패시킵니다 (사이트는 그대로 유지)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -33,6 +38,9 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
 
+      - if: inputs.simulate_failure
+        run: echo "Simulated failure to test the alert" && exit 1
+
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
@@ -53,3 +61,50 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tells the system owner when something needs attention, via a GitHub issue
+  # assigned to them (GitHub emails the assignee):
+  # - a failed build/deploy (usually a CMS save the build rejects). The site keeps
+  #   serving the last good version meanwhile. The issue closes itself on the next
+  #   successful deploy.
+  # - the repo passing 700 MB (uploaded originals stay in git history for good).
+  notify:
+    needs: [build, deploy]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      OWNER: DongHyos # system owner's GitHub login
+      FAILED: ${{ needs.build.result == 'failure' || needs.deploy.result == 'failure' }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      ACTOR: ${{ github.actor }}
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
+    steps:
+      - name: Open, update or close the failure issue
+        run: |
+          title="사이트 배포 실패"
+          open=$(gh issue list --state open --json number,title --jq ".[] | select(.title == \"$title\") | .number" | head -1)
+          if [ "$FAILED" = "true" ]; then
+            body=$(printf '배포가 실패해서 사이트가 갱신되지 않았습니다. 사이트는 마지막 정상 버전으로 계속 열립니다.\n\n- 실행 기록: %s\n- 변경한 사람: %s\n- 변경 내용: %s' "$RUN_URL" "$ACTOR" "${COMMIT_MSG:-(수동 실행)}")
+            if [ -n "$open" ]; then
+              gh issue comment "$open" --body "$body"
+            else
+              gh issue create --title "$title" --assignee "$OWNER" --body "$body"
+            fi
+          elif [ -n "$open" ]; then
+            gh issue close "$open" --comment "다시 정상 배포됐습니다: $RUN_URL"
+          fi
+
+      - name: Warn when the repo passes 700 MB
+        run: |
+          title="저장소 용량 경고"
+          kb=$(gh api "repos/$GH_REPO" --jq .size)
+          if [ "$kb" -gt $((700 * 1024)) ]; then
+            open=$(gh issue list --state open --json title --jq ".[] | select(.title == \"$title\") | .title" | head -1)
+            [ -n "$open" ] || gh issue create --title "$title" --assignee "$OWNER" \
+              --body "저장소가 $((kb / 1024)) MB입니다 (권장 1 GB 이하). 업로드 원본 용량 줄이는 방법을 정할 때입니다."
+          fi
