@@ -54,7 +54,7 @@ for (const name of [...files].sort()) {
 	}
 }
 
-// Small WebP copies of the thumbnails for the main-page prototypes (/lab): ~7 KB each
+// Small WebP copies of the thumbnails for the cover ring: ~7 KB each
 // instead of the 1200px copy (GIFs keep only their first frame).
 const SMALL = path.join(OUT, "s");
 await mkdir(SMALL, { recursive: true });

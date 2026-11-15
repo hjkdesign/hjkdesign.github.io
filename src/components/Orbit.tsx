@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useRef } from "react";
-import type { LabCat, LabItem } from "@/lib/lab";
+import type { CoverCat, CoverItem } from "@/lib/cover";
 import s from "./orbit.module.css";
 
 const TAU = Math.PI * 2;
@@ -30,9 +30,10 @@ const DOTS = Array.from({ length: 18 }, (_, i) => ({
 	cream: i % 3 === 0,
 }));
 
-/** Prototype A: work thumbnails orbit the "Portfolio" title; category tags float around it. */
-export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
+/** Cover: work thumbnails orbit the "Portfolio" title; category tags float around it. */
+export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] }) {
 	const stage = useRef<HTMLDivElement>(null);
+	const cap = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
 		const el = stage.current;
@@ -57,11 +58,24 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 			last = performance.now();
 		let drag: { x: number; y: number } | null = null;
 		let gyro = false;
+		// Thumbnail under the mouse: the ring stops so it can be clicked, and its title shows.
+		let hover: HTMLElement | null = null;
+		const onOver = (e: PointerEvent) => {
+			if (e.pointerType !== "mouse") return;
+			hover = (e.target as Element).closest<HTMLElement>("a[data-a]");
+			if (hover) speedT = 0;
+			const c = cap.current;
+			if (c) {
+				c.textContent = hover ? `${hover.getAttribute("aria-label")} →` : "";
+				c.style.opacity = hover ? "1" : "0";
+			}
+		};
 
 		// Mouse: left/right sets the speed (and direction), up/down the tilt.
 		// Touch: drag does the same; tilting the phone tilts the ring.
 		const onMove = (e: PointerEvent) => {
 			if (e.pointerType === "mouse") {
+				if (hover) return;
 				const r = el.getBoundingClientRect();
 				speedT = BASE_SPEED + (((e.clientX - r.left) / r.width) * 2 - 1) * 0.6;
 				tiltT = (((e.clientY - r.top) / r.height) * 2 - 1) * MAX_TILT;
@@ -91,12 +105,14 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 		const DOE = globalThis.DeviceOrientationEvent as unknown as
 			| { requestPermission?: () => Promise<string> }
 			| undefined;
-		const onTap = () => {
+		const onTap = (e: MouseEvent) => {
+			if ((e.target as Element).closest("a")) return; // a link tap just navigates
 			DOE?.requestPermission?.().catch(() => {});
 			el.removeEventListener("click", onTap);
 		};
 		if (DOE?.requestPermission) el.addEventListener("click", onTap);
 		el.addEventListener("pointermove", onMove);
+		el.addEventListener("pointerover", onOver);
 		el.addEventListener("pointerdown", onDown);
 		el.addEventListener("pointerleave", onLeave);
 		window.addEventListener("pointerup", onUp);
@@ -122,9 +138,14 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 				const ex = rx * Math.cos(a),
 					ey = ry * Math.sin(a);
 				const d = (Math.sin(a) + 1) / 2;
-				n.style.transform = `translate(${cx + ex * c - ey * sn}px, ${cy + ex * sn + ey * c}px) translate(-50%, -50%) scale(${0.55 + 0.45 * d})`;
-				n.style.opacity = String(0.35 + 0.65 * d);
-				n.style.zIndex = d > 0.5 ? "3" : "1";
+				const x = cx + ex * c - ey * sn,
+					y = cy + ex * sn + ey * c;
+				const on = n === hover;
+				n.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${on ? 1.1 : 0.55 + 0.45 * d})`;
+				n.style.opacity = on ? "1" : String(0.35 + 0.65 * d);
+				n.style.zIndex = on ? "5" : d > 0.5 ? "3" : "1";
+				if (on && cap.current)
+					cap.current.style.transform = `translate(${x}px, ${y + n.offsetHeight * 0.55 + 10}px) translateX(-50%)`;
 			}
 			raf = requestAnimationFrame(frame);
 		};
@@ -135,6 +156,7 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 			ro.disconnect();
 			el.removeEventListener("click", onTap);
 			el.removeEventListener("pointermove", onMove);
+			el.removeEventListener("pointerover", onOver);
 			el.removeEventListener("pointerdown", onDown);
 			el.removeEventListener("pointerleave", onLeave);
 			window.removeEventListener("pointerup", onUp);
@@ -146,16 +168,19 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 	return (
 		<div ref={stage} className={s.stage}>
 			<h1 className={s.title}>Portfolio</h1>
-			<div aria-hidden>
+			<div>
 				{items.map((t, i) => {
 					const a = (i / items.length) * TAU;
 					return (
-						// Every other thumbnail is dropped on phones (12 of 24), keeping even spacing.
-						<div
+						// Over 12, phones show every other thumbnail (12 of 24), keeping even spacing.
+						<Link
 							key={t.id}
+							href={t.href}
+							aria-label={t.label}
 							data-a={a}
-							className={`${s.item} ${i % 2 ? s.extra : ""}`}
+							className={`${s.item} ${items.length > 12 && i % 2 ? s.extra : ""}`}
 							style={place(a)}
+							draggable={false}
 						>
 							<Image
 								src={t.thumb}
@@ -164,12 +189,13 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 								height={320}
 								draggable={false}
 							/>
-						</div>
+						</Link>
 					);
 				})}
 				{DOTS.map((d, i) => (
 					<span
 						key={i}
+						aria-hidden
 						data-a={d.a}
 						className={`${s.dot} ${d.cream ? s.cream : ""}`}
 						style={place(d.a)}
@@ -187,15 +213,7 @@ export function Orbit({ items, cats }: { items: LabItem[]; cats: LabCat[] }) {
 					<sup>{c.n}</sup>
 				</Link>
 			))}
-			<p className={s.hint}>
-				<span className={s.desk}>
-					마우스 좌우로 속도, 위아래로 기울기가 바뀌어요 · 태그를 누르면 그
-					분야로
-				</span>
-				<span className={s.mob}>
-					끌거나 폰을 기울여 보세요 · 태그를 누르면 그 분야로
-				</span>
-			</p>
+			<span ref={cap} className={s.cap} aria-hidden />
 		</div>
 	);
 }

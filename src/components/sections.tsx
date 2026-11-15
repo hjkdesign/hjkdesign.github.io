@@ -18,20 +18,6 @@ export function NotFound() {
 	);
 }
 
-export function Cover() {
-	return (
-		<section className={s.cover}>
-			<h1 className={s.coverTitle}>Portfolio</h1>
-			<p className={s.coverRole}>{profile.role}</p>
-			<p className={s.coverMeta}>
-				{profile.nameKr} · {profile.nameEn}
-			</p>
-			<Link href="/about" className={s.cta}>
-				About <span aria-hidden>→</span>
-			</Link>
-		</section>
-	);
-}
 
 export function LinerNotes() {
 	const rows = [

@@ -9,7 +9,7 @@
   text-underline-offset: 4px;
 }
 
-/* ---------- Cover (black, pink type, text only) ---------- */
+/* ---------- Black full-screen block (404 page) ---------- */
 .cover {
   display: grid;
   place-content: center;
@@ -21,27 +21,6 @@
   background: var(--ink);
   color: var(--pink);
   text-align: center;
-}
-
-.coverTitle {
-  font-family: var(--f-script), cursive;
-  font-weight: 400;
-  font-size: clamp(96px, 16.7vw, 240px);
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.coverRole {
-  margin-top: 48px;
-  font-size: clamp(20px, 2.1vw, 30px);
-  font-weight: 500;
-}
-
-.coverMeta {
-  margin-top: 12px;
-  font-size: 16px;
-  color: var(--pink-soft);
-  opacity: 0.75;
 }
 
 /* ---------- 404 ---------- */

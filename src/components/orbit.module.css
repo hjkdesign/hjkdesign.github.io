@@ -37,7 +37,42 @@
   opacity: var(--op);
   transform: translate(-50%, -50%) scale(var(--sc));
   will-change: transform, opacity;
+}
+
+.dot {
   pointer-events: none;
+}
+
+/* Still frame (reduced motion): plain hover. Live: the animation does it. */
+.item:hover,
+.item:focus-visible {
+  --sc: 1;
+  --op: 1;
+  --z: 5;
+}
+
+/* Title of the thumbnail under the mouse. */
+.cap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  padding: 0.45em 1em;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+@media (hover: none) {
+  .cap {
+    display: none;
+  }
 }
 
 .live .item,
@@ -105,32 +140,9 @@
 .p3 { left: 66%; top: 72%; }
 .p4 { left: 42%; top: 80%; }
 
-.hint {
-  position: absolute;
-  left: clamp(20px, 3.9vw, 56px);
-  right: clamp(20px, 3.9vw, 56px);
-  bottom: clamp(20px, 3vw, 40px);
-  z-index: 4;
-  font-size: clamp(12px, 1vw, 14px);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.mob {
-  display: none;
-}
-
 @media (max-width: 760px) {
   .extra {
     display: none;
-  }
-
-  .desk {
-    display: none;
-  }
-
-  .mob {
-    display: inline;
   }
 
   .p0 { left: 6%; top: 28%; }
