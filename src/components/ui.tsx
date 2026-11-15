@@ -14,9 +14,12 @@ export function Card({ track }: { track: Track }) {
 				height={h}
 				alt={track.label}
 			/>
-			<span className={s.cardTitle}>{track.label}</span>
-			<span className={s.cardCode}>
-				{chapterOf(track).en.toUpperCase()}
+			{/* Title + category, marked by a vertical bar on the left. */}
+			<span className={s.cardCap}>
+				<span className={s.cardTitle}>{track.label}</span>
+				<span className={s.cardCode}>
+					{chapterOf(track).en.toUpperCase()}
+				</span>
 			</span>
 		</Link>
 	);
