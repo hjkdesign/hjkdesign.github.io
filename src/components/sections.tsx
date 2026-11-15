@@ -22,7 +22,7 @@ export function NotFound() {
 export function LinerNotes() {
 	const rows = [
 		...profile.credits,
-		{ label: "CONTACT", value: `${profile.email} · ${profile.phone}` },
+		{ label: "CONTACT", value: `${profile.email} / ${profile.phone}` },
 	];
 	return (
 		<section className={s.liner}>

@@ -4,7 +4,7 @@ import { LinerNotes } from "@/components/sections";
 import { profile } from "@/data/profile";
 
 export const metadata: Metadata = {
-	title: `About — ${profile.nameKr} Portfolio`,
+	title: `About - ${profile.nameKr} Portfolio`,
 };
 
 export default function AboutPage() {

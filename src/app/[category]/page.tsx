@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: PageProps<"/[category]">): Promise<Metadata> {
 	const c = find((await params).category);
 	return {
-		title: c ? `${c.en} — ${profile.nameKr} Portfolio` : profile.nameKr,
+		title: c ? `${c.en} - ${profile.nameKr} Portfolio` : profile.nameKr,
 	};
 }
 

@@ -190,7 +190,7 @@
               h("div", { className: "orb-bar" + (low ? " is-low" : "") },
                 h("div", { className: "orb-count" },
                   h("b", null, n), "개 선택 ",
-                  h("span", null, "· " + l.min + "~" + l.max + "개")),
+                  h("span", null, "(" + l.min + "~" + l.max + "개)")),
                 h("div", { className: "orb-meter", "aria-hidden": "true" },
                   h("i", { style: { width: Math.min(100, (n / l.max) * 100) + "%" } }),
                   h("s", { style: { left: (l.min / l.max) * 100 + "%" } })),

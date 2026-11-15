@@ -155,7 +155,7 @@ collections:
           - { name: email, label: 이메일, widget: string }
           - { name: phone, label: 전화번호, widget: string }
           - name: credits
-            label: About 항목 (경력·툴 등)
+            label: About 항목 (경력, 툴 등)
             label_singular: 항목
             widget: list
             summary: "{{label}}"

@@ -74,7 +74,7 @@ type RawWork = {
 > &
 	Partial<Record<"media" | "role" | "tools", string | string[]>> & { contribution?: number | string };
 
-// The CMS may save an empty field as "", null or [] — treat all of those as "not set".
+// The CMS may save an empty field as "", null or [], so treat all of those as "not set".
 const text = (v?: string) => v?.trim() || undefined;
 // Multi-value fields are typed as "모바일 웹, SNS" in the CMS: split on commas (half- or full-width).
 const list = (v?: string | string[]) =>

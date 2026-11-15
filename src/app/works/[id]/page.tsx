@@ -18,7 +18,7 @@ export async function generateMetadata({
 }: PageProps<"/works/[id]">): Promise<Metadata> {
 	const t = findTrack((await params).id);
 	if (!t) return { title: profile.nameKr };
-	const title = `${t.label} — ${profile.nameKr} Portfolio`;
+	const title = `${t.label} - ${profile.nameKr} Portfolio`;
 	const [width, height] = size(t.thumb);
 	// Sharing a work link previews that work's thumbnail instead of the site image.
 	// (openGraph replaces the layout's, so siteName/type are repeated here.)
@@ -28,7 +28,7 @@ export async function generateMetadata({
 			type: "website",
 			siteName: `${profile.nameKr} Portfolio`,
 			title,
-			description: t.info.summary?.replace(/\s+/g, " ") ?? `${chapterOf(t).en} · ${profile.nameKr}`,
+			description: t.info.summary?.replace(/\s+/g, " ") ?? `${chapterOf(t).en} - ${profile.nameKr}`,
 			images: [{ url: src(t.thumb), width, height }],
 		},
 	};
