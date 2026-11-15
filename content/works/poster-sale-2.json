@@ -1,0 +1,23 @@
+{
+  "order": 20,
+  "title": "세일 이벤트 포스터",
+  "category": "poster",
+  "thumb": "/media/thumbnail22.jpg",
+  "images": [
+    "/media/poster2-1.jpg",
+    "/media/poster2-2.jpg",
+    "/media/poster2-3.jpg",
+    "/media/poster2-4.jpg",
+    "/media/poster2-5.jpg",
+    "/media/poster2-6.jpg"
+  ],
+  "summary": "",
+  "brand": "",
+  "period": "",
+  "contribution": null,
+  "media": "",
+  "role": "",
+  "tools": "",
+  "challenge": "",
+  "result": ""
+}

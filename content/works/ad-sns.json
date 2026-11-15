@@ -1,0 +1,21 @@
+{
+  "order": 13,
+  "title": "SNS 광고",
+  "category": "ad",
+  "thumb": "/media/thumbnail31.jpg",
+  "images": [
+    "/media/ad2-1.jpg",
+    "/media/ad2-2.jpg",
+    "/media/ad1-1.jpg",
+    "/media/ad1-2.jpg"
+  ],
+  "summary": "",
+  "brand": "",
+  "period": "",
+  "contribution": null,
+  "media": "",
+  "role": "",
+  "tools": "",
+  "challenge": "",
+  "result": ""
+}

@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/build-images.mjs && next dev",
-    "build": "node scripts/build-images.mjs && next build",
+    "dev": "node scripts/build-content.mjs && node scripts/build-images.mjs && next dev",
+    "build": "node scripts/build-content.mjs && node scripts/build-images.mjs && next build",
     "start": "npx serve@14 out -l 3210",
     "lint": "eslint",
-    "images": "node scripts/build-images.mjs"
+    "images": "node scripts/build-content.mjs && node scripts/build-images.mjs"
   },
   "dependencies": {
     "next": "16.4.6",

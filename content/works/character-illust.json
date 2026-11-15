@@ -1,0 +1,23 @@
+{
+  "order": 16,
+  "title": "캐릭터 일러스트 디자인",
+  "category": "character",
+  "thumb": "/media/thumbnail-character.jpg",
+  "images": [
+    "/media/crt1.jpg",
+    "/media/crt2.jpg",
+    "/media/crt3.jpg",
+    "/media/crt4.jpg",
+    "/media/crt5.jpg",
+    "/media/crt6.jpg"
+  ],
+  "summary": "",
+  "brand": "",
+  "period": "",
+  "contribution": null,
+  "media": "",
+  "role": "",
+  "tools": "",
+  "challenge": "",
+  "result": ""
+}

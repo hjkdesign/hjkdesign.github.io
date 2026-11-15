@@ -1,0 +1,21 @@
+{
+  "order": 21,
+  "title": "의료 시술 소개 포스터",
+  "category": "poster",
+  "thumb": "/media/thumbnail23.jpg",
+  "images": [
+    "/media/poster3-1.jpg",
+    "/media/poster3-2.jpg",
+    "/media/poster3-3.jpg",
+    "/media/poster3-4.jpg"
+  ],
+  "summary": "",
+  "brand": "",
+  "period": "",
+  "contribution": null,
+  "media": "",
+  "role": "",
+  "tools": "",
+  "challenge": "",
+  "result": ""
+}

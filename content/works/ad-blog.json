@@ -1,0 +1,19 @@
+{
+  "order": 15,
+  "title": "블로그 게시글 이미지 광고",
+  "category": "ad",
+  "thumb": "/media/thumbnail33.jpg",
+  "images": [
+    "/media/ad1-3.jpg",
+    "/media/ad1-4.jpg"
+  ],
+  "summary": "",
+  "brand": "",
+  "period": "",
+  "contribution": null,
+  "media": "",
+  "role": "",
+  "tools": "",
+  "challenge": "",
+  "result": ""
+}

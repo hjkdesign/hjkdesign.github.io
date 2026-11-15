@@ -18,7 +18,7 @@ const base = (p) => p.split("/").pop();
 // Keep each file in its own format so the extension stays truthful.
 const format = (n) => (/\.png$/i.test(n) ? "png" : /\.webp$/i.test(n) ? "webp" : "jpeg");
 
-const { works } = await readJson("content/works.json");
+const { works } = await readJson("src/data/works.generated.json"); // from build-content.mjs
 const profile = await readJson("content/profile.json");
 const files = new Set(works.flatMap((w) => [w.thumb, ...w.images]).filter(Boolean).map(base));
 if (profile.resume) files.add(base(profile.resume));

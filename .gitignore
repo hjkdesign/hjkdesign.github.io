@@ -43,6 +43,7 @@ next-env.d.ts
 # generated from content/media by scripts/build-images.mjs
 /public/media/
 /src/data/image-sizes.json
+/src/data/works.generated.json
 
 # browser automation logs
 /.playwright-mcp/

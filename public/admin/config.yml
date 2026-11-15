@@ -13,104 +13,110 @@ media_folder: /content/media
 public_folder: /media
 
 collections:
-  - name: site
-    label: 포트폴리오
-    files:
-      - name: works
-        label: 작업
-        file: content/works.json
-        format: json
-        fields:
-          - name: works
-            label: 작업 목록
-            label_singular: 작업
-            widget: list
-            summary: "{{category}} · {{title}}"
-            hint: 같은 분야 안에서는 이 목록의 순서대로 사이트에 나옵니다. 드래그해서 순서를 바꿀 수 있습니다.
-            fields:
-              # Plain string, not uuid: existing ids are page URLs (/works/landing-01/) and must never change.
-              - name: id
-                label: 작업 ID (주소에 쓰임)
-                widget: string
-                pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "영문 소문자, 숫자, 하이픈(-)만 쓸 수 있습니다. 예 poster-sale-3"]
-                hint: 사이트 주소에 쓰입니다(/works/poster-sale-3). 다른 작업과 겹치면 안 되고, 한 번 정하면 바꾸지 않는 것이 좋습니다.
-              - name: category
-                label: 분야
-                widget: select
-                options:
-                  - { label: Landing Page (랜딩페이지), value: landing }
-                  - { label: Advertisement (광고), value: ad }
-                  - { label: Character (캐릭터), value: character }
-                  - { label: Package (패키지), value: package }
-                  - { label: Poster / etc. (포스터 외), value: poster }
-              - name: title
-                label: 제목
-                widget: string
-                required: false
-                hint: 비워두면 "랜딩페이지 01"처럼 분야 이름과 순번으로 표시됩니다.
-              - name: thumb
-                label: 썸네일
-                widget: image
-                accept: image/jpeg,image/png,image/gif,image/webp
-                hint: 7:5 가로 비율로 잘려서 보입니다. GIF는 움직이는 그대로 나옵니다.
-              - name: images
-                label: 상세 이미지
-                label_singular: 이미지
-                widget: list
-                min: 1
-                hint: 위에서부터 순서대로 보입니다. 랜딩페이지는 틈 없이 이어 붙여 보여줍니다.
-                field:
-                  name: image
-                  label: 이미지
-                  widget: image
-                  accept: image/jpeg,image/png,image/gif,image/webp
-              # Project overview (all optional; empty fields are hidden on the site)
-              - name: summary
-                label: 개요
-                widget: text
-                required: false
-                hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
-              # Picked from the brand list (포트폴리오 → 브랜드) so the same brand is always spelled the same way.
-              - name: brand
-                label: 브랜드
-                widget: relation
-                collection: site
-                file: brands
-                value_field: brands.*.name
-                search_fields: [brands.*.name]
-                required: false
-                hint: 목록에 없으면 '포트폴리오 → 브랜드'에서 먼저 추가해주세요.
-              # Custom "period" widget (admin/index.html): [YYYY.MM] ~ [YYYY.MM] on one line.
-              - name: period
-                label: 기간
-                widget: period
-                required: false
-                hint: "숫자만 입력하면 2024.03처럼 점이 자동으로 들어갑니다. 한 달 안에 끝났으면 뒤 칸은 비워두세요."
-              - name: contribution
-                label: 기여도 (%)
-                widget: number
-                value_type: int
-                min: 0
-                max: 100
-                required: false
-              - name: media
-                label: 매체
-                widget: string
-                required: false
-                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 모바일 웹, SNS, 인쇄물"
-              - name: role
-                label: 담당
-                widget: string
-                required: false
-                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 기획, 디자인, 일러스트"
-              - name: tools
-                label: 툴
-                widget: string
-                required: false
-                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 Photoshop, Illustrator"
-              - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
-              - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
+  # One file per work (content/works/<id>.json); the file name is the page URL /works/<id>/.
+  - name: works
+    label: 작업
+    label_singular: 작업
+    folder: /content/works
+    extension: json
+    format: json
+    create: true
+    delete: true
+    # Manual order (drag in the list), saved as "order" in each file. Within a category the site follows it.
+    reorder: true
+    # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
+    slug: "{{category}}-{{uuid_shorter}}"
+    identifier_field: title
+    # Untitled works (e.g. landing pages) still show their ID in the list.
+    summary: "{{slug}}  {{title}}"
+    thumbnail: thumb
+    view_filters:
+      - { label: Landing Page, field: category, pattern: "^landing$" }
+      - { label: Advertisement, field: category, pattern: "^ad$" }
+      - { label: Character, field: category, pattern: "^character$" }
+      - { label: Package, field: category, pattern: "^package$" }
+      - { label: Poster / etc., field: category, pattern: "^poster$" }
+    fields:
+      - name: category
+        label: 분야
+        widget: select
+        options:
+          - { label: Landing Page (랜딩페이지), value: landing }
+          - { label: Advertisement (광고), value: ad }
+          - { label: Character (캐릭터), value: character }
+          - { label: Package (패키지), value: package }
+          - { label: Poster / etc. (포스터 외), value: poster }
+      - name: title
+        label: 제목
+        widget: string
+        required: false
+        hint: 비워두면 "랜딩페이지 01"처럼 분야 이름과 순번으로 표시됩니다.
+      - name: thumb
+        label: 썸네일
+        widget: image
+        accept: image/jpeg,image/png,image/gif,image/webp
+        hint: 7:5 가로 비율로 잘려서 보입니다. GIF는 움직이는 그대로 나옵니다.
+      - name: images
+        label: 상세 이미지
+        label_singular: 이미지
+        widget: list
+        min: 1
+        hint: 위에서부터 순서대로 보입니다. 랜딩페이지는 틈 없이 이어 붙여 보여줍니다.
+        field:
+          name: image
+          label: 이미지
+          widget: image
+          accept: image/jpeg,image/png,image/gif,image/webp
+      # Project overview (all optional; empty fields are hidden on the site)
+      - name: summary
+        label: 개요
+        widget: text
+        required: false
+        hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
+      # Picked from the brand list (설정 → 브랜드) so the same brand is always spelled the same way.
+      - name: brand
+        label: 브랜드
+        widget: relation
+        collection: site
+        file: brands
+        value_field: brands.*.name
+        search_fields: [brands.*.name]
+        required: false
+        hint: 목록에 없으면 '설정 → 브랜드'에서 먼저 추가해주세요.
+      # Custom "period" widget (admin/index.html): [YYYY.MM] ~ [YYYY.MM] on one line.
+      - name: period
+        label: 기간
+        widget: period
+        required: false
+        hint: "숫자만 입력하면 2024.03처럼 점이 자동으로 들어갑니다. 한 달 안에 끝났으면 뒤 칸은 비워두세요."
+      - name: contribution
+        label: 기여도 (%)
+        widget: number
+        value_type: int
+        min: 0
+        max: 100
+        required: false
+      - name: media
+        label: 매체
+        widget: string
+        required: false
+        hint: "여러 개면 쉼표(,)로 구분해주세요. 예 모바일 웹, SNS, 인쇄물"
+      - name: role
+        label: 담당
+        widget: string
+        required: false
+        hint: "여러 개면 쉼표(,)로 구분해주세요. 예 기획, 디자인, 일러스트"
+      - name: tools
+        label: 툴
+        widget: string
+        required: false
+        hint: "여러 개면 쉼표(,)로 구분해주세요. 예 Photoshop, Illustrator"
+      - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
+      - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
 
+  - name: site
+    label: 설정
+    files:
       - name: brands
         label: 브랜드
         file: content/brands.json

@@ -1,7 +1,8 @@
-import data from "../../content/works.json";
+// Generated from content/works/*.json by scripts/build-content.mjs (runs before dev/build).
+import data from "./works.generated.json";
 
-// Works are edited in the CMS (/admin) and stored in content/works.json.
-// Order inside a category = display order. Media paths ("/media/x.jpg") are
+// Works are edited in the CMS (/admin), one file per work in content/works/.
+// Order inside a category = the CMS's manual order. Media paths ("/media/x.jpg") are
 // reduced to file names; `pnpm images` builds the display copies in public/media.
 
 export type CategoryId = "landing" | "ad" | "character" | "package" | "poster";
@@ -100,7 +101,7 @@ const percent = (v?: number | string) => {
 
 // Fail the build (and so the deploy) on incomplete CMS entries instead of publishing a broken page.
 export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
-	const where = `content/works.json #${i + 1}${w.title ? ` (${w.title})` : ""}`;
+	const where = `content/works/${w.id ?? `#${i + 1}`}.json${w.title ? ` (${w.title})` : ""}`;
 	if (!w.id) throw new Error(`${where}: missing id`);
 	if (!categories.some((c) => c.id === w.category))
 		throw new Error(`${where}: unknown category "${w.category}"`);
@@ -128,4 +129,4 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 
 const ids = works.map((w) => w.id);
 const dup = ids.find((id, i) => ids.indexOf(id) !== i);
-if (dup) throw new Error(`content/works.json: duplicate id "${dup}"`);
+if (dup) throw new Error(`content/works: duplicate id "${dup}"`);
