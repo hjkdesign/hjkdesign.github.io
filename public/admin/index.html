@@ -10,5 +10,66 @@
     <!-- Sveltia CMS reads config.yml from this folder. Saving commits to GitHub,
          and the GitHub Actions workflow rebuilds and redeploys the site. -->
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <script>
+      // "period" field: [YYYY.MM] ~ [YYYY.MM] on one line, saved as "2024.03 ~ 2024.04"
+      // (or just "2024.03"). Typing digits only inserts the dot: 202403 → 2024.03.
+      (function () {
+        var valid = /^\d{4}\.(0[1-9]|1[0-2])$/;
+        var format = function (v) {
+          var d = String(v || "").replace(/\D/g, "").slice(0, 6);
+          return d.length > 4 ? d.slice(0, 4) + "." + d.slice(4) : d;
+        };
+        var parts = function (v) {
+          var p = String(v || "").split(/\s*[~–—]\s*/);
+          return [p[0] || "", p[1] || ""];
+        };
+        var join = function (a, b) {
+          return b ? a + " ~ " + b : a;
+        };
+        var box = function (props, value, other, isStart) {
+          var bad = value !== "" && !valid.test(value);
+          return h("input", {
+            id: isStart ? props.forID : undefined,
+            type: "text",
+            inputMode: "numeric",
+            placeholder: isStart ? "2024.03" : "2024.04",
+            maxLength: 7,
+            value: value,
+            "aria-label": isStart ? "시작 (연도.월)" : "끝 (연도.월)",
+            style: {
+              width: "120px",
+              padding: "8px 10px",
+              border: "1px solid " + (bad ? "#e5484d" : "rgba(127,127,127,.4)"),
+              borderRadius: "4px",
+              font: "inherit",
+              color: "inherit",
+              background: "transparent",
+            },
+            onInput: function (e) {
+              var v = format(e.target.value);
+              props.onChange(isStart ? join(v, other) : join(other, v));
+            },
+          });
+        };
+        var PeriodControl = createClass({
+          render: function () {
+            var p = parts(this.props.value);
+            return h(
+              "div",
+              { style: { display: "flex", alignItems: "center", gap: "10px" } },
+              box(this.props, p[0], p[1], true),
+              h("span", { "aria-hidden": "true" }, "~"),
+              box(this.props, p[1], p[0], false),
+            );
+          },
+        });
+        var PeriodPreview = createClass({
+          render: function () {
+            return h("span", null, this.props.value || "");
+          },
+        });
+        CMS.registerFieldType("period", PeriodControl, PeriodPreview);
+      })();
+    </script>
   </body>
 </html>

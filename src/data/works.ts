@@ -71,7 +71,7 @@ type RawWork = {
 	thumb?: string;
 	images?: string[];
 } & Partial<
-	Record<"summary" | "client" | "periodStart" | "periodEnd" | "challenge" | "result", string>
+	Record<"summary" | "client" | "period" | "challenge" | "result", string>
 > &
 	Partial<Record<"media" | "role" | "tools", string | string[]>> & { contribution?: number | string };
 
@@ -84,8 +84,13 @@ const list = (v?: string | string[]) =>
 		.flatMap((x) => String(x).split(/[,，、]/))
 		.map((x) => x.trim())
 		.filter(Boolean);
-const period = (start?: string, end?: string) => {
-	const [a, b] = [text(start), text(end)];
+// Period is saved by the admin as "2024.03 ~ 2024.04" (or "2024.03"); half-typed parts are dropped.
+const month = (v: string) => {
+	const m = v.trim().match(/^(\d{4})\.(\d{1,2})$/);
+	return m && +m[2] >= 1 && +m[2] <= 12 ? `${m[1]}.${m[2].padStart(2, "0")}` : undefined;
+};
+const period = (v?: string) => {
+	const [a, b] = (v ?? "").split(/[~–—]/).map(month);
 	return a && b && a !== b ? `${a} – ${b}` : a || b;
 };
 const percent = (v?: number | string) => {
@@ -110,7 +115,7 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 		info: {
 			summary: text(w.summary),
 			client: text(w.client),
-			period: period(w.periodStart, w.periodEnd),
+			period: period(w.period),
 			contribution: percent(w.contribution),
 			media: list(w.media),
 			role: list(w.role),

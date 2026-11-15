@@ -71,19 +71,12 @@ collections:
                 required: false
                 hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
               - { name: client, label: 클라이언트, widget: string, required: false, hint: "예 Abijou 의원" }
-              # Fixed YYYY.MM so every work shows its period the same way.
-              - name: periodStart
-                label: 기간 시작
-                widget: string
+              # Custom "period" widget (admin/index.html): [YYYY.MM] ~ [YYYY.MM] on one line.
+              - name: period
+                label: 기간
+                widget: period
                 required: false
-                pattern: ["^\\d{4}\\.(0[1-9]|1[0-2])$", "연도.월 형식으로 입력해주세요. 예 2024.03"]
-                hint: "연도.월 (예 2024.03)"
-              - name: periodEnd
-                label: 기간 끝
-                widget: string
-                required: false
-                pattern: ["^\\d{4}\\.(0[1-9]|1[0-2])$", "연도.월 형식으로 입력해주세요. 예 2024.04"]
-                hint: "연도.월 (예 2024.04). 한 달 안에 끝났으면 비워두세요."
+                hint: "숫자만 입력하면 2024.03처럼 점이 자동으로 들어갑니다. 한 달 안에 끝났으면 뒤 칸은 비워두세요."
               - name: contribution
                 label: 기여도 (%)
                 widget: number
