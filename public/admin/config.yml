@@ -132,20 +132,15 @@ collections:
         label: 메인 궤도
         file: content/orbit.json
         format: json
+        editor: { preview: false }
         fields:
           # Limits match ORBIT_MIN / ORBIT_MAX in src/lib/cover.ts.
           - name: works
             label: 궤도에 띄울 작업
-            widget: relation
-            collection: works
-            multiple: true
+            widget: orbit # thumbnail picker, defined in admin/index.html
             min: 8
             max: 24
-            dropdown_threshold: 1000 # always a checkbox list
-            value_field: "{{slug}}"
-            display_fields: ["{{slug}}  {{title}}"]
-            search_fields: [title]
-            hint: 메인 화면에서 Portfolio 주위를 도는 작업입니다. 8~24개를 고르세요. 휴대폰에서는 12개가 넘으면 그중 절반만 보입니다.
+            hint: 메인 화면에서 Portfolio 주위를 도는 작업입니다. 사진을 눌러 넣고 빼세요.
 
       - name: profile
         label: 프로필

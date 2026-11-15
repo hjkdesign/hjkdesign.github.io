@@ -22,7 +22,7 @@ export const coverCats: CoverCat[] = chapters.map((c) => ({
 }));
 
 // 256px WebP made by scripts/build-images.mjs (public/media/s/).
-const smallThumb = (name: string) =>
+export const smallThumb = (name: string) =>
 	`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/media/s/${name.replace(/\.[^.]+$/, "")}.webp`;
 
 /** Matching works, one category at a time (each in CMS order), so neighbours on the ring differ. */

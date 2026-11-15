@@ -5,6 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>포트폴리오 관리</title>
+    <style>
+      /* "orbit" field (메인 궤도 picker). Neutral greys follow the CMS light/dark theme. */
+      .orb { --orb-accent: #ff5fa2; display: flex; flex-direction: column; gap: 22px; }
+      .orb-bar { position: sticky; top: 0; z-index: 1; padding: 14px 16px; border-radius: 10px; background: color-mix(in srgb, canvas 88%, var(--orb-accent)); }
+      .orb-count { font-size: 15px; }
+      .orb-count b { font-size: 22px; margin-right: 2px; }
+      .orb-count span { opacity: 0.6; }
+      .orb-meter { position: relative; height: 6px; margin: 10px 0 8px; border-radius: 3px; background: rgba(127, 127, 127, 0.25); }
+      .orb-meter i { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: var(--orb-accent); transition: width 0.2s; }
+      .orb-meter s { position: absolute; top: -3px; width: 2px; height: 12px; background: currentColor; opacity: 0.5; }
+      .orb-status { margin: 0; font-size: 13px; opacity: 0.8; }
+      .orb-bar.is-low .orb-status { color: #e5484d; opacity: 1; font-weight: 600; }
+      .orb-group header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+      .orb-group h4 { margin: 0; font-size: 14px; }
+      .orb-group h4 span { margin-left: 8px; font-weight: 400; opacity: 0.6; }
+      .orb-link { border: 0; background: none; color: var(--orb-accent); font: inherit; font-size: 13px; cursor: pointer; }
+      .orb-link:disabled { color: inherit; opacity: 0.35; cursor: not-allowed; }
+      .orb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 12px; }
+      .orb-card { display: flex; flex-direction: column; gap: 6px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+      .orb-img { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 8px; overflow: hidden; outline: 1px solid rgba(127, 127, 127, 0.3); }
+      .orb-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: grayscale(0.6); transition: opacity 0.15s, filter 0.15s; }
+      .orb-check { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #fff; background: rgba(0, 0, 0, 0.35); color: #fff; font-size: 13px; font-weight: 700; }
+      .orb-label { font-size: 12px; line-height: 1.3; opacity: 0.6; word-break: keep-all; }
+      .orb-card:hover .orb-img img { opacity: 0.8; }
+      .orb-card.is-on .orb-img { outline: 3px solid var(--orb-accent); }
+      .orb-card.is-on .orb-img img { opacity: 1; filter: none; }
+      .orb-card.is-on .orb-check { border-color: var(--orb-accent); background: var(--orb-accent); }
+      .orb-card.is-on .orb-label { opacity: 1; }
+      .orb-card.is-off { cursor: not-allowed; }
+      .orb-card.is-off .orb-img img { opacity: 0.2; }
+      .orb-card:focus-visible { outline: 2px solid var(--orb-accent); outline-offset: 3px; border-radius: 8px; }
+      .orb-note { margin: 0; font-size: 12px; opacity: 0.6; }
+    </style>
   </head>
   <body>
     <!-- Sveltia CMS reads config.yml from this folder. Saving commits to GitHub,
@@ -77,6 +110,129 @@
           },
         });
         CMS.registerFieldType("period", PeriodControl, PeriodPreview);
+      })();
+    </script>
+    <script>
+      // "orbit" field (설정 → 메인 궤도): pick the works on the cover ring from a thumbnail
+      // grid. Saved as a list of work IDs. Limits come from the field's min / max.
+      // The work list is /admin/works.json, built with the site.
+      (function () {
+        var groups = null; // [{ label, works: [{ id, label, thumb }] }]
+        var load = fetch("works.json", { cache: "no-store" })
+          .then(function (r) { return r.json(); })
+          .then(function (g) { groups = g; return g; });
+        var toArray = function (v) {
+          if (v == null) return [];
+          if (typeof v.toJS === "function") return v.toJS();
+          return Array.from(v);
+        };
+        var known = function (ids) {
+          if (!groups) return ids;
+          var all = {};
+          groups.forEach(function (g) { g.works.forEach(function (w) { all[w.id] = true; }); });
+          return ids.filter(function (id) { return all[id]; });
+        };
+        var limits = function (field) {
+          return { min: field.get("min") || 0, max: field.get("max") || Infinity };
+        };
+
+        var OrbitControl = createClass({
+          getInitialState: function () {
+            return { groups: groups };
+          },
+          componentDidMount: function () {
+            var self = this;
+            load.then(function (g) { self.setState({ groups: g }); });
+          },
+          isValid: function (value, field) {
+            var n = known(toArray(value)).length, l = limits(field);
+            if (n < l.min) return { error: { message: "메인 궤도에는 " + l.min + "개 이상이 필요해요. " + (l.min - n) + "개 더 골라 주세요." } };
+            if (n > l.max) return { error: { message: "최대 " + l.max + "개까지예요. " + (n - l.max) + "개를 빼 주세요." } };
+            return true;
+          },
+          save: function (set) {
+            // Keep the saved list in the work order of the CMS.
+            var out = [];
+            this.state.groups.forEach(function (g) {
+              g.works.forEach(function (w) { if (set[w.id]) out.push(w.id); });
+            });
+            this.props.onChange(out);
+          },
+          render: function () {
+            var self = this, g = this.state.groups;
+            if (!g) return h("p", { className: "orb-note" }, "작업 목록을 불러오는 중…");
+            var l = limits(this.props.field);
+            var ids = known(toArray(this.props.value)), set = {};
+            ids.forEach(function (id) { set[id] = true; });
+            var n = ids.length, full = n >= l.max, low = n < l.min;
+            var phone = n > 12 ? Math.ceil(n / 2) : n;
+            var status = low
+              ? (l.min - n) + "개 더 골라 주세요 (최소 " + l.min + "개)"
+              : full
+                ? "최대 " + l.max + "개를 다 골랐어요. 바꾸려면 먼저 하나를 빼 주세요."
+                : "휴대폰에서는 " + phone + "개가 보여요.";
+            var toggle = function (id) {
+              var next = Object.assign({}, set);
+              if (next[id]) delete next[id];
+              else if (!full) next[id] = true;
+              else return;
+              self.save(next);
+            };
+            var setGroup = function (grp, on) {
+              var next = Object.assign({}, set), room = l.max - n;
+              grp.works.forEach(function (w) {
+                if (on && !next[w.id] && room > 0) { next[w.id] = true; room--; }
+                if (!on) delete next[w.id];
+              });
+              self.save(next);
+            };
+            return h("div", { className: "orb" },
+              h("div", { className: "orb-bar" + (low ? " is-low" : "") },
+                h("div", { className: "orb-count" },
+                  h("b", null, n), "개 선택 ",
+                  h("span", null, "· " + l.min + "~" + l.max + "개")),
+                h("div", { className: "orb-meter", "aria-hidden": "true" },
+                  h("i", { style: { width: Math.min(100, (n / l.max) * 100) + "%" } }),
+                  h("s", { style: { left: (l.min / l.max) * 100 + "%" } })),
+                h("p", { className: "orb-status", role: "status" }, status)),
+              g.map(function (grp) {
+                var picked = grp.works.filter(function (w) { return set[w.id]; }).length;
+                var all = picked === grp.works.length;
+                return h("section", { key: grp.label, className: "orb-group" },
+                  h("header", null,
+                    h("h4", null, grp.label, h("span", null, picked + " / " + grp.works.length)),
+                    h("button", {
+                      type: "button",
+                      className: "orb-link",
+                      disabled: !all && full,
+                      onClick: function () { setGroup(grp, !all); },
+                    }, all ? "모두 빼기" : "모두 넣기")),
+                  h("div", { className: "orb-grid" },
+                    grp.works.map(function (w) {
+                      var on = !!set[w.id], off = !on && full;
+                      return h("button", {
+                        key: w.id,
+                        type: "button",
+                        className: "orb-card" + (on ? " is-on" : "") + (off ? " is-off" : ""),
+                        "aria-pressed": on,
+                        disabled: off,
+                        title: off ? "최대 " + l.max + "개예요. 먼저 하나를 빼 주세요." : w.label,
+                        onClick: function () { toggle(w.id); },
+                      },
+                        h("span", { className: "orb-img" },
+                          h("img", { src: w.thumb, alt: "", loading: "lazy" }),
+                          h("span", { className: "orb-check", "aria-hidden": "true" }, on ? "✓" : "")),
+                        h("span", { className: "orb-label" }, w.label));
+                    })));
+              }),
+              h("p", { className: "orb-note" },
+                "궤도에서는 분야가 번갈아 섞여서 돌아요. 새로 올린 작업은 사이트에 반영된 뒤(약 1분) 여기에 나타나요."));
+          },
+        });
+        var OrbitPreview = createClass({
+          render: function () { return h("span", null, known(toArray(this.props.value)).length + "개"); },
+        });
+        CMS.registerFieldType("orbit", OrbitControl, OrbitPreview);
       })();
     </script>
   </body>
