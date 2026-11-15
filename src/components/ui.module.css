@@ -41,6 +41,15 @@
   font-weight: 700;
 }
 
+/* About: white menu, current page in pink. */
+.whiteLinks .links a {
+  color: #fff;
+}
+
+.whiteLinks .links a.on {
+  color: var(--pink);
+}
+
 .thumb {
   width: 100%;
   aspect-ratio: 7 / 5;

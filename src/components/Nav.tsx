@@ -22,7 +22,11 @@ export function Nav({ current }: { current?: string }) {
 	// Black pages (cover, About) get the black/pink bar.
 	const dark = path === "/" || path === "/about";
 	return (
-		<header className={dark ? `${s.nav} ${s.dark}` : s.nav}>
+		<header
+			className={[s.nav, dark && s.dark, path === "/about" && s.whiteLinks]
+				.filter(Boolean)
+				.join(" ")}
+		>
 			<Link href="/" className={s.brand}>
 				{profile.nameEn.toUpperCase()}
 			</Link>
