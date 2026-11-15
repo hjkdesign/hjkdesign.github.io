@@ -1,16 +1,13 @@
-// Derives everything the playlist layout shows (chapters, track codes, page order) from data/works.
+// Derives everything the playlist layout shows (chapters, labels, page order) from data/works.
 
 import imageSizes from "@/data/image-sizes.json";
 import { type Category, categories, type Work, works } from "@/data/works";
 
 export type Track = Work & {
-	code: string; // A1, A2 … continuous per side
 	label: string; // title, or "랜딩페이지 01" when untitled
 };
 
 export type Chapter = Category & { tracks: Track[] };
-
-const counters = { A: 0, B: 0 };
 
 export const chapters: Chapter[] = categories.map((c) => {
 	const items = works.filter((w) => w.category === c.id);
@@ -18,7 +15,6 @@ export const chapters: Chapter[] = categories.map((c) => {
 		...c,
 		tracks: items.map((w, j) => ({
 			...w,
-			code: `${c.side}${++counters[c.side]}`,
 			label: w.title ?? `${c.kr} ${String(j + 1).padStart(2, "0")}`,
 		})),
 	};

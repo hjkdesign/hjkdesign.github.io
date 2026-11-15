@@ -27,7 +27,7 @@ export function Print({
 			<span className={s.printCap}>
 				<span>{track.label}</span>
 				<i>
-					{track.code} · {chapterOf(track).en.toUpperCase()}
+					{chapterOf(track).en.toUpperCase()}
 				</i>
 			</span>
 		</Link>
@@ -47,7 +47,7 @@ export function Card({ track }: { track: Track }) {
 			/>
 			<span className={s.cardTitle}>{track.label}</span>
 			<span className={s.cardCode}>
-				{track.code} · {chapterOf(track).en.toUpperCase()}
+				{chapterOf(track).en.toUpperCase()}
 			</span>
 		</Link>
 	);
