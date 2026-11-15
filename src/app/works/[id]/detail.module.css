@@ -27,14 +27,6 @@
   margin-bottom: 24px;
 }
 
-.summary {
-  max-width: 720px;
-  font-size: clamp(17px, 1.35vw, 19px);
-  line-height: 1.75;
-  color: #333;
-  white-space: pre-line;
-}
-
 /* Small caps-style labels, same voice as the About credits. */
 .facts dt,
 .story h2 {
@@ -51,9 +43,9 @@
   /* 3 columns: brand/period/contribution on one row, media/role/tools below. */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px 40px;
+  /* No rule above: the facts sit right under the title; one rule below separates the overview. */
   margin-top: 36px;
-  padding: 28px 0;
-  border-top: 1px solid var(--line);
+  padding: 0 0 28px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -98,11 +90,10 @@
   column-gap: 40px;
 }
 
-/* No facts row above: the story block draws the top rule itself. */
-.summary + .story,
+/* Overview only (no facts): start under the title the same way the facts would. */
 .story:first-child {
   margin-top: 36px;
-  border-top: 1px solid var(--line);
+  padding-top: 0;
 }
 
 .story h2 {
@@ -192,7 +183,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px 20px;
     margin-top: 28px;
-    padding: 24px 0;
+    padding: 0 0 24px;
   }
   .story {
     gap: 24px;
@@ -205,7 +196,6 @@
     margin-bottom: 10px;
     padding-top: 0;
   }
-  .summary + .story,
   .story:first-child {
     margin-top: 28px;
   }

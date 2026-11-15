@@ -97,7 +97,7 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 	);
 }
 
-/** Project overview: lead text, a spec sheet of facts, then challenge / result. Empty parts are left out.
+/** Project overview: a spec sheet of facts, then the overview text. Empty parts are left out.
  * Multi-value fields (media, role, tools) read as plain text: "디자인, 일러스트". */
 function Overview({ info }: { info: WorkInfo }) {
 	const facts = [
@@ -119,14 +119,12 @@ function Overview({ info }: { info: WorkInfo }) {
 		info.tools.length > 0 && { label: "Tools", value: info.tools.join(", ") },
 	].filter((f) => !!f);
 	const story = [
-		info.challenge && { label: "Challenge", text: info.challenge },
-		info.result && { label: "Result", text: info.result },
+		info.summary && { label: "Overview", text: info.summary },
 	].filter((f) => !!f);
 
-	if (!info.summary && !facts.length && !story.length) return null;
+	if (!facts.length && !story.length) return null;
 	return (
 		<div className={s.overview}>
-			{info.summary && <p className={s.summary}>{info.summary}</p>}
 			{facts.length > 0 && (
 				<dl className={s.facts}>
 					{facts.map((f) => (

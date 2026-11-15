@@ -33,8 +33,6 @@ export type WorkInfo = {
 	media: string[];
 	role: string[];
 	tools: string[];
-	challenge?: string;
-	result?: string;
 };
 
 export const categories: Category[] = [
@@ -72,7 +70,7 @@ type RawWork = {
 	thumb?: string;
 	images?: string[];
 } & Partial<
-	Record<"summary" | "brand" | "period" | "challenge" | "result", string>
+	Record<"summary" | "brand" | "period", string>
 > &
 	Partial<Record<"media" | "role" | "tools", string | string[]>> & { contribution?: number | string };
 
@@ -121,8 +119,6 @@ export const works: Work[] = (data.works as RawWork[]).map((w, i) => {
 			media: list(w.media),
 			role: list(w.role),
 			tools: list(w.tools),
-			challenge: text(w.challenge),
-			result: text(w.result),
 		},
 	};
 });

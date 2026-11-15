@@ -72,7 +72,7 @@ collections:
         label: 개요
         widget: text
         required: false
-        hint: 어떤 작업인지 1~3줄로 적어주세요. 제목 아래에 크게 나옵니다.
+        hint: 작업 소개, 목표, 결과 등을 자유롭게 적어주세요. 기본 정보 아래 OVERVIEW에 나옵니다.
       # Picked from the brand list (설정 → 브랜드) so the same brand is always spelled the same way.
       - name: brand
         label: 브랜드
@@ -111,8 +111,6 @@ collections:
         widget: string
         required: false
         hint: "여러 개면 쉼표(,)로 구분해주세요. 예 Photoshop, Illustrator"
-      - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
-      - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
 
   - name: site
     label: 설정
