@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
-import { LinerNotes, PagePager } from "@/components/sections";
+import { LinerNotes } from "@/components/sections";
 import { profile } from "@/data/profile";
 
 export const metadata: Metadata = {
@@ -13,7 +13,6 @@ export default function AboutPage() {
 			<Nav />
 			<main>
 				<LinerNotes />
-				<PagePager href="/about" />
 			</main>
 		</>
 	);

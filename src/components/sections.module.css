@@ -71,6 +71,8 @@
 
 /* ---------- Liner notes ---------- */
 .liner {
+  /* Fill the screen below the nav so no cream shows under short content. */
+  min-height: calc(100svh - var(--nav-h));
   background: var(--ink);
   color: var(--cream);
   padding: 90px clamp(20px, 7.6vw, 110px) 120px;
