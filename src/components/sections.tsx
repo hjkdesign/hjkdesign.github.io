@@ -15,7 +15,7 @@ export function Cover() {
 				{profile.nameKr} · {profile.nameEn}
 			</p>
 			<Link href="/about" className={s.cta}>
-				작업 보기 <span aria-hidden>→</span>
+				About <span aria-hidden>→</span>
 			</Link>
 		</section>
 	);
@@ -98,10 +98,13 @@ export function Contact() {
 }
 
 /** Previous / next page in the reading order (cover → about → chapters → contact). */
+// Prev/next walks the work chapters and Contact only; Cover and About sit outside it.
+const pagerSeq = pageSeq.filter((p) => p.href !== "/" && p.href !== "/about");
+
 export function PagePager({ href }: { href: string }) {
-	const i = pageSeq.findIndex((p) => p.href === href);
-	const prev = pageSeq[i - 1];
-	const next = pageSeq[i + 1];
+	const i = pagerSeq.findIndex((p) => p.href === href);
+	const prev = pagerSeq[i - 1];
+	const next = pagerSeq[i + 1];
 	return (
 		<nav className={s.pager}>
 			{prev ? (
