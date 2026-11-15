@@ -97,15 +97,8 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 	);
 }
 
-const Badges = ({ items }: { items: string[] }) => (
-	<ul className={s.badges}>
-		{items.map((x) => (
-			<li key={x}>{x}</li>
-		))}
-	</ul>
-);
-
-/** Project overview: lead text, a spec sheet of facts, then challenge / result. Empty parts are left out. */
+/** Project overview: lead text, a spec sheet of facts, then challenge / result. Empty parts are left out.
+ * Multi-value fields (media, role, tools) read as plain text: "디자인, 일러스트". */
 function Overview({ info }: { info: WorkInfo }) {
 	const facts = [
 		info.brand && { label: "Brand", value: info.brand },
@@ -121,9 +114,9 @@ function Overview({ info }: { info: WorkInfo }) {
 				</span>
 			),
 		},
-		info.media.length > 0 && { label: "Media", value: <Badges items={info.media} /> },
-		info.role.length > 0 && { label: "Role", value: <Badges items={info.role} /> },
-		info.tools.length > 0 && { label: "Tools", value: <Badges items={info.tools} /> },
+		info.media.length > 0 && { label: "Media", value: info.media.join(", ") },
+		info.role.length > 0 && { label: "Role", value: info.role.join(", ") },
+		info.tools.length > 0 && { label: "Tools", value: info.tools.join(", ") },
 	].filter((f) => !!f);
 	const story = [
 		info.challenge && { label: "Challenge", text: info.challenge },

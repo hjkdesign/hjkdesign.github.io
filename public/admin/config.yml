@@ -97,17 +97,17 @@ collections:
                 label: 매체
                 widget: string
                 required: false
-                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 모바일 웹, SNS, 인쇄물"
+                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 모바일 웹, SNS, 인쇄물"
               - name: role
                 label: 담당
                 widget: string
                 required: false
-                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 기획, 디자인, 일러스트"
+                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 기획, 디자인, 일러스트"
               - name: tools
                 label: 툴
                 widget: string
                 required: false
-                hint: "쉼표(,)로 나누면 각각 뱃지가 됩니다. 예 Photoshop, Illustrator"
+                hint: "여러 개면 쉼표(,)로 구분해주세요. 예 Photoshop, Illustrator"
               - { name: challenge, label: 목표·과제, widget: text, required: false, hint: 무엇을 해결해야 했는지 }
               - { name: result, label: 결과, widget: text, required: false, hint: "반응·성과·수치 등" }
 

@@ -77,7 +77,7 @@ type RawWork = {
 
 // The CMS may save an empty field as "", null or [] — treat all of those as "not set".
 const text = (v?: string) => v?.trim() || undefined;
-// Badge fields are typed as "모바일 웹, SNS" in the CMS: split on commas (half- or full-width).
+// Multi-value fields are typed as "모바일 웹, SNS" in the CMS: split on commas (half- or full-width).
 const list = (v?: string | string[]) =>
 	[v ?? []]
 		.flat()
