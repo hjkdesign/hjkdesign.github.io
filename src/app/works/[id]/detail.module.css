@@ -76,18 +76,9 @@
   background: var(--pink-deep);
 }
 
+/* Overview: label on top, text underneath; no rule below (the images follow). */
 .story {
-  display: grid;
-  gap: 24px;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-/* Same 3-column grid as the facts: label in column 1, text across 2–3. */
-.story section {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 40px;
+  padding: 28px 0 8px;
 }
 
 /* Overview only (no facts): start under the title the same way the facts would. */
@@ -97,13 +88,11 @@
 }
 
 .story h2 {
-  margin-bottom: 0;
-  padding-top: 5px;
+  margin-bottom: 12px;
 }
 
 .story p {
-  grid-column: 2 / -1;
-  max-width: 620px;
+  max-width: 720px;
   font-size: 15px;
   line-height: 1.8;
   color: #444;
@@ -186,15 +175,7 @@
     padding: 0 0 24px;
   }
   .story {
-    gap: 24px;
-    padding: 24px 0;
-  }
-  .story section {
-    display: block;
-  }
-  .story h2 {
-    margin-bottom: 10px;
-    padding-top: 0;
+    padding: 24px 0 4px;
   }
   .story:first-child {
     margin-top: 28px;
