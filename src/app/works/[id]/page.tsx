@@ -72,7 +72,7 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 					<div>
 						{prev && (
 							<>
-								<p className={s.pagerLabel}>← PREV TRACK</p>
+								<p className={s.pagerLabel}>← PREV</p>
 								<Card track={prev} />
 							</>
 						)}
@@ -83,7 +83,7 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 					<div>
 						{next && (
 							<>
-								<p className={`${s.pagerLabel} ${s.right}`}>NEXT TRACK →</p>
+								<p className={`${s.pagerLabel} ${s.right}`}>NEXT →</p>
 								<Card track={next} />
 							</>
 						)}
