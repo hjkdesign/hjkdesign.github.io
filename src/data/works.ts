@@ -30,7 +30,7 @@ export const categories: Category[] = [
 		kr: "랜딩페이지",
 		side: "A",
 	},
-	{ id: "ad", en: "Advertisement", short: "Ad", kr: "광고", side: "A" },
+	{ id: "ad", en: "Advertisement", short: "AD", kr: "광고", side: "A" },
 	{
 		id: "character",
 		en: "Character",
