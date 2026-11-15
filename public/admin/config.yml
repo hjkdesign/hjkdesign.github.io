@@ -4,7 +4,7 @@
 
 backend:
   name: github
-  repo: DESIGNER/dong-website # TODO: designer's GitHub username / repo name
+  repo: HyoinShin/hyoinshin.github.io # user site → https://hyoinshin.github.io/
   branch: main
   auth_methods: [token]
 
