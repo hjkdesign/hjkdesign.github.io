@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { Card, Print } from "@/components/ui";
+import { Card } from "@/components/ui";
 import { profile } from "@/data/profile";
-import { type Chapter, findTrack, pageSeq } from "@/lib/tracks";
+import { type Chapter, pageSeq } from "@/lib/tracks";
 import s from "./sections.module.css";
-
-const pick = (id: string) => findTrack(id)!;
 
 export function Cover() {
 	return (
@@ -68,7 +66,6 @@ export function Contact() {
 	return (
 		<section className={s.contact}>
 			<div>
-				<p className={s.kickerDark}>BONUS TRACK</p>
 				<h1 className={`${s.script} ${s.contactTitle}`}>
 					Let&apos;s work together
 				</h1>
@@ -81,16 +78,6 @@ export function Contact() {
 						Resume (PDF) ↓
 					</a>
 				</p>
-			</div>
-			<div className={s.contactPrints}>
-				<Print
-					track={pick("package-tint")}
-					style={{ left: "18%", top: "0%", width: "70%", rotate: "5deg" }}
-				/>
-				<Print
-					track={pick("poster-treatment")}
-					style={{ left: "6%", top: "44%", width: "66%", rotate: "-4deg" }}
-				/>
 			</div>
 			<p className={s.copy}>© {profile.nameEn}</p>
 		</section>
