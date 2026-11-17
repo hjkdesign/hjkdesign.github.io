@@ -26,7 +26,7 @@ export function LinerNotes() {
 	];
 	return (
 		<section className={s.liner}>
-			<h1 className={`${s.script} ${s.linerTitle}`}>Liner notes</h1>
+			<h1 className={`${s.script} ${s.linerTitle}`}>Visual Designer</h1>
 			<div className={s.linerBody}>
 				<div>
 					<p className={s.linerIntro}>{profile.intro}</p>
