@@ -41,4 +41,19 @@ export const findTrack = (id: string) => tracks.find((t) => t.id === id);
 export const src = (name: string) =>
 	`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/media/${name}`;
 export const size = (name: string) =>
-	(imageSizes as Record<string, number[]>)[name] ?? [1200, 800];
+	(imageSizes as unknown as Record<string, [number, number, number[]?]>)[name] ?? [1200, 800];
+
+// WebP display copies made by scripts/build-images.mjs (src() stays for share previews).
+const stem = (name: string) => name.replace(/\.[^.]+$/, "");
+/** List-card thumbnail, ≤800px wide. */
+export const thumbSrc = (name: string) =>
+	`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/media/t/${stem(name)}.webp`;
+/** A work image as the pieces it was cut into (one piece unless it is very tall). */
+export const pieces = (name: string) => {
+	const [w, h, heights = [h]] = size(name);
+	return heights.map((ph, i) => ({
+		src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/media/w/${stem(name)}-${i}.webp`,
+		w,
+		h: ph,
+	}));
+};

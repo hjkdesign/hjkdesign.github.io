@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { chapterOf, size, src, type Track } from "@/lib/tracks";
+import { chapterOf, size, thumbSrc, type Track } from "@/lib/tracks";
 import s from "./ui.module.css";
 
 export function Card({ track }: { track: Track }) {
@@ -9,7 +9,7 @@ export function Card({ track }: { track: Track }) {
 		<Link href={`/works/${track.id}`} className={s.card}>
 			<Image
 				className={s.thumb}
-				src={src(track.thumb)}
+				src={thumbSrc(track.thumb)}
 				width={w}
 				height={h}
 				alt={track.label}

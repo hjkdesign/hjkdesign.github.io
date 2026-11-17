@@ -71,5 +71,60 @@ for (const name of new Set(works.map((w) => base(w.thumb)))) {
 	small++;
 }
 
+// What the pages actually show: WebP, lighter than the JPG/GIF copies above
+// (those stay for share previews and the résumé).
+//   thumbnails → public/media/t/<name>.webp, ≤800px wide (list cards), GIFs keep moving
+//   work images → public/media/w/<name>-<i>.webp, ≤1200px wide, cut into pieces of
+//   PIECE px height so a long landing page shows its top before the rest arrives.
+//   The piece heights go into image-sizes.json as the third value.
+const PIECE = 2000;
+const THUMB_WIDTH = 800;
+const THUMBS = path.join(OUT, "t");
+const WORK = path.join(OUT, "w");
+await mkdir(THUMBS, { recursive: true });
+await mkdir(WORK, { recursive: true });
+const stem = (n) => n.replace(/\.[^.]+$/, "");
+const load = (src, animated) =>
+	sharp(src, { limitInputPixels: false, animated }).rotate();
+let webp = 0;
+
+for (const name of new Set(works.map((w) => base(w.thumb)))) {
+	const src = path.join(MEDIA, name);
+	const dst = path.join(THUMBS, `${stem(name)}.webp`);
+	if ((await mtime(dst)) >= (await mtime(src))) continue;
+	await load(src, /\.gif$/i.test(name))
+		.resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+		.webp({ quality: 80 })
+		.toFile(dst);
+	webp++;
+}
+
+for (const name of new Set(works.flatMap((w) => w.images).map(base))) {
+	const src = path.join(MEDIA, name);
+	const animated = /\.gif$/i.test(name);
+	const [w, h] = sizes[name];
+	const n = animated ? 1 : Math.ceil(h / PIECE);
+	const heights = Array.from({ length: n }, (_, i) => Math.min(PIECE, h - i * PIECE));
+	if (n > 1) sizes[name] = [w, h, heights];
+	const out = (i) => path.join(WORK, `${stem(name)}-${i}.webp`);
+	if ((await mtime(out(n - 1))) >= (await mtime(src))) continue;
+	if (animated) {
+		await load(src, true).resize({ width: MAX_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(out(0));
+	} else {
+		// Resize once, then cut the pieces out of the resized pixels.
+		const { data, info } = await load(src, false)
+			.resize({ width: MAX_WIDTH, withoutEnlargement: true })
+			.raw()
+			.toBuffer({ resolveWithObject: true });
+		const raw = { raw: { width: info.width, height: info.height, channels: info.channels } };
+		for (let i = 0; i < n; i++)
+			await sharp(data, raw)
+				.extract({ left: 0, top: i * PIECE, width: info.width, height: heights[i] })
+				.webp({ quality: 80 })
+				.toFile(out(i));
+	}
+	webp += n;
+}
+
 await writeFile(SIZES, JSON.stringify(sizes, null, 1) + "\n");
-console.log(`images: ${files.size} referenced, ${built} rebuilt, ${small} small thumbs`);
+console.log(`images: ${files.size} referenced, ${built} rebuilt, ${small} small thumbs, ${webp} webp`);

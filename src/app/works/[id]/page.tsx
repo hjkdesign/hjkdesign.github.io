@@ -6,7 +6,7 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/ui";
 import { profile } from "@/data/profile";
 import type { WorkInfo } from "@/data/works";
-import { chapterOf, findTrack, size, src, tracks } from "@/lib/tracks";
+import { chapterOf, findTrack, pieces, size, src, tracks } from "@/lib/tracks";
 import s from "./detail.module.css";
 
 export function generateStaticParams() {
@@ -65,17 +65,21 @@ export default async function WorkPage({ params }: PageProps<"/works/[id]">) {
 
 				<div className={`${s.images} ${continuous ? s.continuous : ""}`}>
 					{track.images.map((name, n) => {
-						const [w, h] = size(name);
+						const parts = pieces(name);
 						return (
-							<Image
-								key={name}
-								src={src(name)}
-								width={w}
-								height={h}
-								alt={`${track.label} ${n + 1}`}
-								style={{ maxWidth: `${w}px` }}
-								priority={n === 0}
-							/>
+							// A very tall image arrives as stacked pieces; it still reads as one picture.
+							<div key={name} className={s.shot} style={{ maxWidth: `${parts[0].w}px` }}>
+								{parts.map((p, i) => (
+									<Image
+										key={p.src}
+										src={p.src}
+										width={p.w}
+										height={p.h}
+										alt={i === 0 ? `${track.label} ${n + 1}` : ""}
+										priority={n === 0 && i === 0}
+									/>
+								))}
+							</div>
 						);
 					})}
 				</div>
