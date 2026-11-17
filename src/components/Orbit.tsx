@@ -9,12 +9,13 @@ import s from "./orbit.module.css";
 
 const TAU = Math.PI * 2;
 const BASE_SPEED = 0.12; // rad/s with no input
+const CALM_SPEED = 0.06; // rad/s when the device asks for less motion
 const MAX_TILT = 0.35; // rad
 const clamp = (v: number, lo: number, hi: number) =>
 	Math.min(hi, Math.max(lo, v));
 
 // Where each thing sits on the ring (angle) and how close it is (depth 0 back → 1 front).
-// Deterministic, so the server HTML is also the still frame for reduced motion.
+// Deterministic, so the server HTML is also the still frame before the script runs.
 const place = (a: number) => {
 	const d = (Math.sin(a) + 1) / 2;
 	return {
@@ -25,10 +26,6 @@ const place = (a: number) => {
 		"--z": d > 0.5 ? 3 : 1,
 	} as CSSProperties;
 };
-const DOTS = Array.from({ length: 18 }, (_, i) => ({
-	a: ((i * 137.5) % 360) * (TAU / 360),
-	cream: i % 3 === 0,
-}));
 
 /** Cover: work thumbnails orbit the "Portfolio" title; category tags float around it. */
 export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] }) {
@@ -37,7 +34,11 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 
 	useEffect(() => {
 		const el = stage.current;
-		if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+		if (!el) return;
+		// "Reduce motion" / "Remove animations" on: the ring still turns, slowly and steadily,
+		// and ignores mouse, drag and tilt.
+		const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const base = calm ? CALM_SPEED : BASE_SPEED;
 		const nodes = [...el.querySelectorAll<HTMLElement>("[data-a]")].map(
 			(n) => ({ n, a0: Number(n.dataset.a) }),
 		);
@@ -50,8 +51,8 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 		ro.observe(el);
 		el.classList.add(s.live);
 
-		let speed = BASE_SPEED,
-			speedT = BASE_SPEED,
+		let speed = base,
+			speedT = base,
 			tilt = 0,
 			tiltT = 0,
 			rot = 0,
@@ -74,6 +75,7 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 		// Mouse: left/right sets the speed (and direction), up/down the tilt.
 		// Touch: drag does the same; tilting the phone tilts the ring.
 		const onMove = (e: PointerEvent) => {
+			if (calm) return;
 			if (e.pointerType === "mouse") {
 				if (hover) return;
 				const r = el.getBoundingClientRect();
@@ -86,18 +88,19 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 			}
 		};
 		const onDown = (e: PointerEvent) => {
-			if (e.pointerType !== "mouse") drag = { x: e.clientX, y: e.clientY };
+			if (!calm && e.pointerType !== "mouse")
+				drag = { x: e.clientX, y: e.clientY };
 		};
 		const onUp = () => {
 			drag = null;
-			speedT = BASE_SPEED;
+			speedT = base;
 			if (!gyro) tiltT = 0;
 		};
 		const onLeave = (e: PointerEvent) => {
 			if (e.pointerType === "mouse") onUp();
 		};
 		const onOrient = (e: DeviceOrientationEvent) => {
-			if (e.gamma == null) return;
+			if (calm || e.gamma == null) return;
 			gyro = true;
 			if (!drag) tiltT = clamp(e.gamma / 40, -1, 1) * MAX_TILT;
 		};
@@ -110,7 +113,7 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 			DOE?.requestPermission?.().catch(() => {});
 			el.removeEventListener("click", onTap);
 		};
-		if (DOE?.requestPermission) el.addEventListener("click", onTap);
+		if (!calm && DOE?.requestPermission) el.addEventListener("click", onTap);
 		el.addEventListener("pointermove", onMove);
 		el.addEventListener("pointerover", onOver);
 		el.addEventListener("pointerdown", onDown);
@@ -192,15 +195,6 @@ export function Orbit({ items, cats }: { items: CoverItem[]; cats: CoverCat[] })
 						</Link>
 					);
 				})}
-				{DOTS.map((d, i) => (
-					<span
-						key={i}
-						aria-hidden
-						data-a={d.a}
-						className={`${s.dot} ${d.cream ? s.cream : ""}`}
-						style={place(d.a)}
-					/>
-				))}
 			</div>
 			{cats.map((c, i) => (
 				<Link
