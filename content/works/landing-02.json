@@ -1,14 +1,14 @@
 {
   "order": 2,
   "category": "landing",
-  "title": "[여름이왔썸머] 아비쥬 프로모션 랜딩",
+  "title": "[여름이왔썸머] 시술 프로모션 랜딩",
   "thumb": "/media/thumbnail2.gif",
   "images": [
     "/media/thumbnail2.gif",
     "/media/landing2.jpg"
   ],
   "summary": "",
-  "brand": "",
+  "brand": "아비쥬",
   "period": "2022.06",
   "contribution": 100,
   "media": "홈페이지 게시",
