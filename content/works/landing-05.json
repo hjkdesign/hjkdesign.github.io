@@ -1,16 +1,16 @@
 {
   "order": 4,
   "category": "landing",
-  "title": "",
+  "title": "[유월,뷰티] 시술 프로모션 랜딩",
   "thumb": "/media/thumbnail5.jpg",
   "images": [
     "/media/landing5.jpg"
   ],
-  "summary": "",
-  "brand": "",
-  "period": "",
-  "contribution": null,
-  "media": "",
-  "role": "",
-  "tools": ""
+  "summary": "2023년 6월에 진행한 아비쥬 여름 프로모션 시술 가격 랜딩 페이지입니다.\n초여름의 해사한 햇살을 배경으로 피크닉이 컨셉인 디자인을 하였습니다.",
+  "brand": "아비쥬",
+  "period": "2023.06",
+  "contribution": 100,
+  "media": "웹/홈페이지",
+  "role": "디자인",
+  "tools": "포토샵"
 }
