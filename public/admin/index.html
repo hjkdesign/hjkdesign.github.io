@@ -38,6 +38,19 @@
       .orb-card:focus-visible { outline: 2px solid var(--orb-accent); outline-offset: 3px; border-radius: 8px; }
       .orb-note { margin: 0; font-size: 12px; opacity: 0.6; }
     </style>
+    <style>
+      /* "order" field (메뉴 순서). */
+      .ord { display: flex; flex-direction: column; gap: 8px; max-width: 520px; margin: 0; padding: 0; list-style: none; }
+      .ord-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid rgba(127, 127, 127, 0.3); border-radius: 10px; background: canvas; cursor: grab; user-select: none; }
+      .ord-row.is-drag { opacity: 0.4; }
+      .ord-row.is-over { border-color: #ff5fa2; box-shadow: 0 0 0 2px #ff5fa2; }
+      .ord-grip { opacity: 0.4; font-size: 18px; line-height: 1; }
+      .ord-num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #ff5fa2; color: #fff; font-size: 13px; font-weight: 700; }
+      .ord-label { flex: 1; font-size: 15px; }
+      .ord-btn { width: 34px; height: 34px; border: 1px solid rgba(127, 127, 127, 0.35); border-radius: 8px; background: none; color: inherit; font-size: 16px; cursor: pointer; }
+      .ord-btn:hover:not(:disabled) { border-color: #ff5fa2; color: #ff5fa2; }
+      .ord-btn:disabled { opacity: 0.25; cursor: default; }
+    </style>
   </head>
   <body>
     <!-- Sveltia CMS reads config.yml from this folder. Saving commits to GitHub,
@@ -233,6 +246,96 @@
           render: function () { return h("span", null, known(toArray(this.props.value)).length + "개"); },
         });
         CMS.registerFieldType("orbit", OrbitControl, OrbitPreview);
+      })();
+    </script>
+    <script>
+      // "order" field (설정 → 메뉴 순서): put the categories in order by dragging a row
+      // or with the ↑ ↓ buttons. Saved as a list of category IDs; the names come from
+      // the field's options. Every category is always in the list exactly once.
+      (function () {
+        var toArray = function (v) {
+          if (v == null) return [];
+          if (typeof v.toJS === "function") return v.toJS();
+          return Array.from(v);
+        };
+        var optionsOf = function (field) {
+          return toArray(field.get("options"));
+        };
+        var normalize = function (value, options) {
+          var ids = options.map(function (o) { return o.value; });
+          var out = toArray(value).filter(function (id, i, a) {
+            return ids.indexOf(id) >= 0 && a.indexOf(id) === i;
+          });
+          ids.forEach(function (id) { if (out.indexOf(id) < 0) out.push(id); });
+          return out;
+        };
+
+        var OrderControl = createClass({
+          getInitialState: function () {
+            return { dragging: null, over: null };
+          },
+          move: function (from, to) {
+            var options = optionsOf(this.props.field);
+            var list = normalize(this.props.value, options);
+            if (to < 0 || to >= list.length || from === to) return;
+            var item = list.splice(from, 1)[0];
+            list.splice(to, 0, item);
+            this.props.onChange(list);
+          },
+          render: function () {
+            var self = this;
+            var options = optionsOf(this.props.field);
+            var list = normalize(this.props.value, options);
+            var labelOf = function (id) {
+              return options.filter(function (o) { return o.value === id; })[0].label;
+            };
+            return h("ol", { className: "ord", id: this.props.forID },
+              list.map(function (id, i) {
+                var cls = "ord-row" +
+                  (self.state.dragging === i ? " is-drag" : "") +
+                  (self.state.over === i && self.state.dragging !== i ? " is-over" : "");
+                return h("li", {
+                  key: id,
+                  className: cls,
+                  draggable: true,
+                  onDragStart: function (e) {
+                    e.dataTransfer.effectAllowed = "move";
+                    e.dataTransfer.setData("text/plain", id);
+                    self.setState({ dragging: i });
+                  },
+                  onDragOver: function (e) {
+                    e.preventDefault();
+                    if (self.state.over !== i) self.setState({ over: i });
+                  },
+                  onDrop: function (e) {
+                    e.preventDefault();
+                    if (self.state.dragging != null) self.move(self.state.dragging, i);
+                    self.setState({ dragging: null, over: null });
+                  },
+                  onDragEnd: function () { self.setState({ dragging: null, over: null }); },
+                },
+                  h("span", { className: "ord-grip", "aria-hidden": "true" }, "⠿"),
+                  h("span", { className: "ord-num" }, i + 1),
+                  h("span", { className: "ord-label" }, labelOf(id)),
+                  h("button", {
+                    type: "button", className: "ord-btn", disabled: i === 0,
+                    "aria-label": labelOf(id) + " 위로", title: "위로",
+                    onClick: function () { self.move(i, i - 1); },
+                  }, "↑"),
+                  h("button", {
+                    type: "button", className: "ord-btn", disabled: i === list.length - 1,
+                    "aria-label": labelOf(id) + " 아래로", title: "아래로",
+                    onClick: function () { self.move(i, i + 1); },
+                  }, "↓"));
+              }));
+          },
+        });
+        var OrderPreview = createClass({
+          render: function () {
+            return h("span", null, toArray(this.props.value).join(", "));
+          },
+        });
+        CMS.registerFieldType("order", OrderControl, OrderPreview);
       })();
     </script>
   </body>

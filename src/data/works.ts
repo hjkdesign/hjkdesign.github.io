@@ -1,4 +1,5 @@
 // Generated from content/works/*.json by scripts/build-content.mjs (runs before dev/build).
+import menu from "../../content/categories.json";
 import data from "./works.generated.json";
 
 // Works are edited in the CMS (/admin), one file per work in content/works/.
@@ -35,7 +36,7 @@ export type WorkInfo = {
 	tools: string[];
 };
 
-export const categories: Category[] = [
+const allCategories: Category[] = [
 	{
 		id: "landing",
 		en: "Landing Page",
@@ -60,6 +61,16 @@ export const categories: Category[] = [
 		side: "B",
 	},
 ];
+
+// Menu order is set in the CMS (설정 → 메뉴 순서). Unknown IDs are ignored and any
+// category missing from the list keeps its place at the end, so the menu is never short.
+const rank = (id: string) => {
+	const i = (menu.order as string[]).indexOf(id);
+	return i < 0 ? Infinity : i;
+};
+export const categories: Category[] = [...allCategories].sort(
+	(a, b) => rank(a.id) - rank(b.id),
+);
 
 const name = (path: string) => path.split("/").pop() ?? path;
 

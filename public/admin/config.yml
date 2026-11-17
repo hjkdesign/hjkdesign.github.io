@@ -128,6 +128,23 @@ collections:
             hint: 작업의 '브랜드' 칸에서 고를 수 있는 목록입니다.
             field: { name: name, label: 브랜드 이름, widget: string }
 
+      - name: menu
+        label: 메뉴 순서
+        file: content/categories.json
+        format: json
+        editor: { preview: false }
+        fields:
+          - name: order
+            label: 분야 순서
+            widget: order # defined in admin/index.html
+            hint: 위쪽 메뉴, 메인의 분야 태그, 작업을 넘겨 보는 순서가 모두 이 순서를 따릅니다. About과 Contact는 자리가 고정입니다.
+            options:
+              - { label: Landing Page (랜딩페이지), value: landing }
+              - { label: Advertisement (광고), value: ad }
+              - { label: Character (캐릭터), value: character }
+              - { label: Package (패키지), value: package }
+              - { label: Poster / etc. (포스터 외), value: poster }
+
       - name: orbit
         label: 메인 궤도
         file: content/orbit.json
