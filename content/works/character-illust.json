@@ -1,7 +1,7 @@
 {
-  "order": 16,
-  "title": "캐릭터 일러스트 디자인",
+  "order": 12,
   "category": "character",
+  "title": "캐릭터 일러스트 디자인",
   "thumb": "/media/thumbnail-character.jpg",
   "images": [
     "/media/crt1.jpg",

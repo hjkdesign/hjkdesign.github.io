@@ -1,7 +1,7 @@
 {
-  "order": 24,
-  "title": "지하철 옥외광고",
+  "order": 20,
   "category": "poster",
+  "title": "지하철 옥외광고",
   "thumb": "/media/thumbnail26.jpg",
   "images": [
     "/media/subway2-3.jpg",

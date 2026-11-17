@@ -1,7 +1,7 @@
 {
-  "order": 19,
-  "title": "세일 이벤트 포스터",
+  "order": 15,
   "category": "poster",
+  "title": "세일 이벤트 포스터",
   "thumb": "/media/thumbnail21.jpg",
   "images": [
     "/media/poster1-1.jpg",
