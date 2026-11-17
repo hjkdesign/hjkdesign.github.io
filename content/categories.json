@@ -1,3 +1,9 @@
 {
-  "order": ["landing", "ad", "character", "package", "poster"]
+  "order": [
+    "landing",
+    "ad",
+    "package",
+    "poster",
+    "character"
+  ]
 }
