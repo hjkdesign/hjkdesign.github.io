@@ -1,16 +1,16 @@
 {
   "order": 1,
   "category": "landing",
-  "title": "[연말결산] 아비쥬 프로모션 랜딩페이지",
+  "title": "[연말결산] 시술 프로모션 랜딩",
   "thumb": "/media/thumbnail1.gif",
   "images": [
     "/media/landing1.jpg"
   ],
-  "summary": "2022년 아비쥬 연말 프로모션 시술 가격 랜딩페이지\n아비쥬 홈페이지 오픈",
+  "summary": "2022년 12월에 진행한 아비쥬 연말 프로모션 시술 가격 랜딩 페이지입니다.\n연말 시상식을 모티프로 트로피가 반짝이고 있는 디자인을 하였습니다.",
   "brand": "아비쥬",
-  "period": "2022.11 ~ 2022.12",
+  "period": "2022.12",
   "contribution": 100,
-  "media": "웹",
+  "media": "웹/홈페이지",
   "role": "디자인",
   "tools": "포토샵"
 }
