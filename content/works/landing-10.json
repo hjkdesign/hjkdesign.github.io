@@ -1,16 +1,16 @@
 {
   "order": 5,
   "category": "landing",
-  "title": "",
-  "thumb": "/media/thumbnail10.jpg",
+  "title": "[릴랙스큐 스팟 온열 패치] 부착용 미니 핫팩 상세페이지",
+  "thumb": "/media/A00000023247008ko.webp",
   "images": [
-    "/media/landing10.jpg"
+    "/media/relaxQ_salepage.jpg"
   ],
-  "summary": "",
-  "brand": "",
-  "period": "",
-  "contribution": null,
-  "media": "",
-  "role": "",
-  "tools": ""
+  "summary": "일본 수입제품인 부착형 미니 핫팩 스티커의 효과를 설명하고 제품을 홍보하고자 만든 상세페이지입니다.",
+  "brand": "릴랙스큐",
+  "period": "2025.06",
+  "contribution": 100,
+  "media": "웹/쿠팡,올리브영",
+  "role": "디자인",
+  "tools": "포토샵"
 }
