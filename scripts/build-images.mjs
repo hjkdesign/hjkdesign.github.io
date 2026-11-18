@@ -1,6 +1,6 @@
 // Builds the display copies of every file the content references.
 //   content/media/<file>  (originals, uploaded through the CMS)
-//   → public/media/<file> (JPG/PNG/WebP ≤1200px wide; GIF and PDF copied as-is)
+//   → public/media/<file> (JPG/PNG/WebP ≤1200px wide; GIF, animated WebP and PDF copied as-is)
 // and records image sizes in src/data/image-sizes.json for layout.
 // Runs before `next dev` / `next build`; unchanged files are skipped.
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
@@ -28,6 +28,16 @@ const prev = JSON.parse(await readFile(SIZES, "utf8").catch(() => "{}"));
 const sizes = {};
 let built = 0;
 
+// GIFs and animated WebPs keep all their frames (a plain resize keeps only the first).
+const animatedCache = new Map();
+const isAnimated = async (name) => {
+	if (/\.gif$/i.test(name)) return true;
+	if (!/\.webp$/i.test(name)) return false;
+	if (!animatedCache.has(name))
+		animatedCache.set(name, ((await sharp(path.join(MEDIA, name)).metadata()).pages ?? 1) > 1);
+	return animatedCache.get(name);
+};
+
 await mkdir(OUT, { recursive: true });
 for (const name of [...files].sort()) {
 	const src = path.join(MEDIA, name);
@@ -35,7 +45,7 @@ for (const name of [...files].sort()) {
 	if (!(await mtime(src))) throw new Error(`content/media/${name} is referenced but missing`);
 	const fresh = (await mtime(dst)) >= (await mtime(src));
 
-	if (/\.(gif|pdf)$/i.test(name)) {
+	if (/\.pdf$/i.test(name) || (await isAnimated(name))) {
 		if (!fresh) {
 			await copyFile(src, dst);
 			built++;
@@ -92,7 +102,7 @@ for (const name of new Set(works.map((w) => base(w.thumb)))) {
 	const src = path.join(MEDIA, name);
 	const dst = path.join(THUMBS, `${stem(name)}.webp`);
 	if ((await mtime(dst)) >= (await mtime(src))) continue;
-	await load(src, /\.gif$/i.test(name))
+	await load(src, await isAnimated(name))
 		.resize({ width: THUMB_WIDTH, withoutEnlargement: true })
 		.webp({ quality: 80 })
 		.toFile(dst);
@@ -101,7 +111,7 @@ for (const name of new Set(works.map((w) => base(w.thumb)))) {
 
 for (const name of new Set(works.flatMap((w) => w.images).map(base))) {
 	const src = path.join(MEDIA, name);
-	const animated = /\.gif$/i.test(name);
+	const animated = await isAnimated(name);
 	const [w, h] = sizes[name];
 	const n = animated ? 1 : Math.ceil(h / PIECE);
 	const heights = Array.from({ length: n }, (_, i) => Math.min(PIECE, h - i * PIECE));
