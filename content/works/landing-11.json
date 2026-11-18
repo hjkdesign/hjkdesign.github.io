@@ -1,16 +1,16 @@
 {
   "order": 2,
   "category": "landing",
-  "title": "",
-  "thumb": "/media/thumbnail11.jpg",
+  "title": "[흔들어쓰는 워터리 오일 로션] 바디로션 상세페이지",
+  "thumb": "/media/BIO_Bodylotion_thumbnail_7.jpg",
   "images": [
-    "/media/landing11.jpg"
+    "/media/BIO_Bodylotion_salespage.jpg"
   ],
-  "summary": "",
-  "brand": "",
-  "period": "",
-  "contribution": null,
-  "media": "",
-  "role": "",
-  "tools": ""
+  "summary": "바디로션 신제품을 소개하기 위한 상세페이지입니다.",
+  "brand": "바이오-오일",
+  "period": "2026.08",
+  "contribution": 100,
+  "media": "웹/스마트스토어,카카오톡선물하기",
+  "role": "디자인",
+  "tools": "포토샵"
 }
