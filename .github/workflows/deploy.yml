@@ -53,9 +53,10 @@ jobs:
           path: out
 
   # When a save takes an image out of a work (or deletes the work), the image file is
-  # deleted too, so the CMS asset library keeps only what the site uses. Runs beside
-  # the build; the site never uses those files anyway. See scripts/prune-media.mjs.
-  # (A push made with this job's token starts no new deploy.)
+  # deleted too, so the CMS asset library keeps only what the site uses. It looks at
+  # the whole history, not just this push, so saves whose deploy was cancelled by a
+  # newer one are covered too. Runs beside the build; the site never uses those files.
+  # See scripts/prune-media.mjs. (A push made with this job's token starts no new deploy.)
   prune:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
@@ -68,13 +69,8 @@ jobs:
           filter: blob:none # full history for the diff, file contents only when needed
 
       - name: Delete images no work uses any more
-        env:
-          FROM: ${{ github.event.before }}
-          TO: ${{ github.sha }}
         run: |
-          # A brand-new branch or forced push has no usable "before"; compare with the parent.
-          git cat-file -e "$FROM^{commit}" 2>/dev/null || FROM="$TO~1"
-          node scripts/prune-media.mjs "$FROM" "$TO"
+          node scripts/prune-media.mjs --all
           git add -A content/media
           git diff --cached --quiet && exit 0
           git config user.name "github-actions[bot]"

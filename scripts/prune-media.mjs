@@ -1,7 +1,7 @@
 // Deletes images that a save took out of the works, so the CMS asset library only
 // holds files the site uses.
-//   node scripts/prune-media.mjs <from> <to>   files removed between two commits (the deploy runs this)
-//   node scripts/prune-media.mjs --all         files removed at any point in history
+//   node scripts/prune-media.mjs --all         files removed at any point in history (the deploy runs this)
+//   node scripts/prune-media.mjs <from> <to>   files removed between two commits
 // A file is deleted only when it was once used by a work (or as the résumé) and
 // nothing uses it now, so an image shared by two works stays until both drop it,
 // and a file uploaded to the asset library but never put in a work is left alone.

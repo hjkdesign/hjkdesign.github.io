@@ -30,8 +30,8 @@ collections:
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
     identifier_field: title
-    # Untitled works (e.g. landing pages) still show their ID in the list.
-    summary: "{{slug}}  {{title}}"
+    # Title only: the ID (landing-10) looked like a position number while reordering.
+    summary: "{{title | default('(제목 없음)')}}"
     thumbnail: thumb
     fields: &work_fields
       - name: category
@@ -125,8 +125,8 @@ collections:
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
     identifier_field: title
-    # Untitled works (e.g. landing pages) still show their ID in the list.
-    summary: "{{slug}}  {{title}}"
+    # Title only: the ID (landing-10) looked like a position number while reordering.
+    summary: "{{title | default('(제목 없음)')}}"
     thumbnail: thumb
     fields: *work_fields
 
@@ -144,8 +144,8 @@ collections:
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
     identifier_field: title
-    # Untitled works (e.g. landing pages) still show their ID in the list.
-    summary: "{{slug}}  {{title}}"
+    # Title only: the ID (landing-10) looked like a position number while reordering.
+    summary: "{{title | default('(제목 없음)')}}"
     thumbnail: thumb
     fields: *work_fields
 
@@ -163,8 +163,8 @@ collections:
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
     identifier_field: title
-    # Untitled works (e.g. landing pages) still show their ID in the list.
-    summary: "{{slug}}  {{title}}"
+    # Title only: the ID (landing-10) looked like a position number while reordering.
+    summary: "{{title | default('(제목 없음)')}}"
     thumbnail: thumb
     fields: *work_fields
 
@@ -182,8 +182,8 @@ collections:
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
     identifier_field: title
-    # Untitled works (e.g. landing pages) still show their ID in the list.
-    summary: "{{slug}}  {{title}}"
+    # Title only: the ID (landing-10) looked like a position number while reordering.
+    summary: "{{title | default('(제목 없음)')}}"
     thumbnail: thumb
     fields: *work_fields
 
