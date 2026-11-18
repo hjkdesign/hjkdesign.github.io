@@ -52,6 +52,38 @@ jobs:
         with:
           path: out
 
+  # When a save takes an image out of a work (or deletes the work), the image file is
+  # deleted too, so the CMS asset library keeps only what the site uses. Runs beside
+  # the build; the site never uses those files anyway. See scripts/prune-media.mjs.
+  # (A push made with this job's token starts no new deploy.)
+  prune:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none # full history for the diff, file contents only when needed
+
+      - name: Delete images no work uses any more
+        env:
+          FROM: ${{ github.event.before }}
+          TO: ${{ github.sha }}
+        run: |
+          # A brand-new branch or forced push has no usable "before"; compare with the parent.
+          git cat-file -e "$FROM^{commit}" 2>/dev/null || FROM="$TO~1"
+          node scripts/prune-media.mjs "$FROM" "$TO"
+          git add -A content/media
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -qm "Delete images no work uses any more"
+          # A CMS save may have landed meanwhile.
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 5; done
+          exit 1
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -69,7 +101,7 @@ jobs:
   #   successful deploy.
   # - the repo passing 700 MB (uploaded originals stay in git history for good).
   notify:
-    needs: [build, deploy]
+    needs: [build, prune, deploy]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     permissions:
@@ -83,6 +115,7 @@ jobs:
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       ACTOR: ${{ github.actor }}
       COMMIT_MSG: ${{ github.event.head_commit.message }}
+      PRUNE_FAILED: ${{ needs.prune.result == 'failure' }}
     steps:
       - name: Open, update or close the failure issue
         run: |
@@ -98,6 +131,13 @@ jobs:
           elif [ -n "$open" ]; then
             gh issue close "$open" --comment "다시 정상 배포됐습니다: $RUN_URL"
           fi
+
+      # The site is fine either way; the removed images just stay in the asset library.
+      - name: Report a failed image clean-up
+        if: env.PRUNE_FAILED == 'true'
+        run: |
+          gh issue create --title "안 쓰는 이미지 정리 실패" --assignee "$OWNER" \
+            --body "$(printf '작업에서 뺀 이미지를 지우지 못했습니다. 사이트에는 영향이 없습니다.\n\n- 실행 기록: %s\n- 정리하려면 로컬에서: node scripts/prune-media.mjs --all' "$RUN_URL")"
 
       - name: Warn when the repo passes 700 MB
         run: |
