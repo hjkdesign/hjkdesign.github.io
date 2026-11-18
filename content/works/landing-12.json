@@ -1,16 +1,16 @@
 {
   "order": 3,
   "category": "landing",
-  "title": "",
+  "title": "[옐로욜로] 카카오칩스 상세페이지",
   "thumb": "/media/thumbnail12.jpg",
   "images": [
     "/media/landing12.jpg"
   ],
-  "summary": "",
+  "summary": "클라이언트의 요청으로 카카오칩스 브랜드 상세페이지를 디자인하였습니다.\n빠르게 읽을 수 있는 모바일최적화된 상세페이지를 요청하셔서,\n섹션 간 길이를 최소화 하고 폰트 가독성을 높혔습니다.",
   "brand": "",
-  "period": "",
-  "contribution": null,
-  "media": "",
-  "role": "",
-  "tools": ""
+  "period": "2019.12",
+  "contribution": 100,
+  "media": "웹",
+  "role": "디자인",
+  "tools": "포토샵"
 }
