@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>포트폴리오 관리</title>
+    <script>
+      // "새로 만들기" inside a category list (e.g. Package) starts the work in that
+      // category: the CMS prefills fields from the URL, so add ?category=<that list>.
+      (function () {
+        var cats = /^#\/collections\/(landing|ad|character|package|poster)\/new$/;
+        var prefill = function () {
+          var m = location.hash.match(cats);
+          if (m) location.replace(location.hash + "?category=" + m[1]);
+        };
+        prefill();
+        window.addEventListener("hashchange", prefill);
+      })();
+    </script>
     <style>
       /* "orbit" field (메인 궤도 picker). Neutral greys follow the CMS light/dark theme. */
       .orb { --orb-accent: #ff5fa2; display: flex; flex-direction: column; gap: 22px; }

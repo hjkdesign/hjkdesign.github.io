@@ -13,16 +13,19 @@ media_folder: /content/media
 public_folder: /media
 
 collections:
-  # One file per work (content/works/<id>.json); the file name is the page URL /works/<id>/.
-  - name: works
-    label: 작업
+  # Works: one file per work in content/works/<id>.json (the file name is the page URL
+  # /works/<id>/). Every category is its own collection over the same folder, so the
+  # sidebar lists them separately; the "category" field decides where a work belongs.
+  - name: landing
+    label: Landing Page
     label_singular: 작업
     folder: /content/works
     extension: json
     format: json
+    filter: { field: category, value: landing }
     create: true
     delete: true
-    # Manual order (drag in the list), saved as "order" in each file. Within a category the site follows it.
+    # Drag to reorder (saved as "order" in each file); the site lists the category in this order.
     reorder: true
     # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
     slug: "{{category}}-{{uuid_shorter}}"
@@ -30,16 +33,11 @@ collections:
     # Untitled works (e.g. landing pages) still show their ID in the list.
     summary: "{{slug}}  {{title}}"
     thumbnail: thumb
-    view_filters:
-      - { label: Landing Page, field: category, pattern: "^landing$" }
-      - { label: Advertisement, field: category, pattern: "^ad$" }
-      - { label: Character, field: category, pattern: "^character$" }
-      - { label: Package, field: category, pattern: "^package$" }
-      - { label: Poster / etc., field: category, pattern: "^poster$" }
-    fields:
+    fields: &work_fields
       - name: category
         label: 분야
         widget: select
+        hint: 바꾸면 저장 후 해당 분야 목록으로 옮겨집니다.
         options:
           - { label: Landing Page (랜딩페이지), value: landing }
           - { label: Advertisement (광고), value: ad }
@@ -111,6 +109,84 @@ collections:
         widget: string
         required: false
         hint: "여러 개면 쉼표(,)로 구분해주세요. 예 Photoshop, Illustrator"
+
+  - name: ad
+    label: Advertisement
+    label_singular: 작업
+    folder: /content/works
+    extension: json
+    format: json
+    filter: { field: category, value: ad }
+    create: true
+    delete: true
+    # Drag to reorder (saved as "order" in each file); the site lists the category in this order.
+    reorder: true
+    # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
+    slug: "{{category}}-{{uuid_shorter}}"
+    identifier_field: title
+    # Untitled works (e.g. landing pages) still show their ID in the list.
+    summary: "{{slug}}  {{title}}"
+    thumbnail: thumb
+    fields: *work_fields
+
+  - name: character
+    label: Character
+    label_singular: 작업
+    folder: /content/works
+    extension: json
+    format: json
+    filter: { field: category, value: character }
+    create: true
+    delete: true
+    # Drag to reorder (saved as "order" in each file); the site lists the category in this order.
+    reorder: true
+    # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
+    slug: "{{category}}-{{uuid_shorter}}"
+    identifier_field: title
+    # Untitled works (e.g. landing pages) still show their ID in the list.
+    summary: "{{slug}}  {{title}}"
+    thumbnail: thumb
+    fields: *work_fields
+
+  - name: package
+    label: Package
+    label_singular: 작업
+    folder: /content/works
+    extension: json
+    format: json
+    filter: { field: category, value: package }
+    create: true
+    delete: true
+    # Drag to reorder (saved as "order" in each file); the site lists the category in this order.
+    reorder: true
+    # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
+    slug: "{{category}}-{{uuid_shorter}}"
+    identifier_field: title
+    # Untitled works (e.g. landing pages) still show their ID in the list.
+    summary: "{{slug}}  {{title}}"
+    thumbnail: thumb
+    fields: *work_fields
+
+  - name: poster
+    label: Poster / etc.
+    label_singular: 작업
+    folder: /content/works
+    extension: json
+    format: json
+    filter: { field: category, value: poster }
+    create: true
+    delete: true
+    # Drag to reorder (saved as "order" in each file); the site lists the category in this order.
+    reorder: true
+    # New works get an automatic, URL-safe ID such as poster-4fc0917c; existing ones keep theirs.
+    slug: "{{category}}-{{uuid_shorter}}"
+    identifier_field: title
+    # Untitled works (e.g. landing pages) still show their ID in the list.
+    summary: "{{slug}}  {{title}}"
+    thumbnail: thumb
+    fields: *work_fields
+
+  - divider: true
 
   - name: site
     label: 설정
