@@ -94,15 +94,14 @@ const list = (v?: string | string[]) =>
 		.flatMap((x) => String(x).split(/[,，、]/))
 		.map((x) => x.trim())
 		.filter(Boolean);
-// Period (제작일 in the admin) is saved as "2024.03"; older saves may hold "2024.03 ~ 2024.04",
-// which still shows as a range. Half-typed parts are dropped.
+// Period (제작 기간 in the admin) is saved as "2024.03 ~ 2024.04" (or "2024.03"); half-typed parts are dropped.
 const month = (v: string) => {
 	const m = v.trim().match(/^(\d{4})\.(\d{1,2})$/);
 	return m && +m[2] >= 1 && +m[2] <= 12 ? `${m[1]}.${m[2].padStart(2, "0")}` : undefined;
 };
 const period = (v?: string) => {
 	const [a, b] = (v ?? "").split(/[~–—]/).map(month);
-	return a && b && a !== b ? `${a} – ${b}` : a || b;
+	return a && b && a !== b ? `${a} ~ ${b}` : a || b;
 };
 const percent = (v?: number | string) => {
 	const n = Number(v);

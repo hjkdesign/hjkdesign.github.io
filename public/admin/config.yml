@@ -81,13 +81,12 @@ collections:
         search_fields: [brands.*.name]
         required: false
         hint: 목록에 없으면 '설정 → 브랜드'에서 먼저 추가해주세요.
-      # Custom "period" widget (admin/index.html): one [YYYY.MM] box. The field keeps its
-      # old name "period" so existing works need no change.
+      # Custom "period" widget (admin/index.html): [YYYY.MM] ~ [YYYY.MM] on one line.
       - name: period
-        label: 제작일
+        label: 제작 기간
         widget: period
         required: false
-        hint: "숫자만 입력하면 2024.03처럼 점이 자동으로 들어갑니다."
+        hint: "숫자만 입력하면 2024.03처럼 점이 자동으로 들어갑니다. 한 달 안에 끝났으면 뒤 칸은 비워두세요."
       - name: contribution
         label: 기여도 (%)
         widget: number
