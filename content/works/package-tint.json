@@ -1,19 +1,21 @@
 {
   "order": 13,
   "category": "package",
-  "title": "화장품 틴트 패키지",
-  "thumb": "/media/thumbnail42.jpg",
+  "title": "[엘립스] 헤어 에센스 블리스터, RRP",
+  "thumb": "/media/ELS_purple_jar_2ea_BlisterPKG_1.png",
   "images": [
-    "/media/pck11.jpg",
-    "/media/pck12.jpg",
-    "/media/pck13.jpg",
-    "/media/pck14.jpg"
+    "/media/ELS_purple_jar_2ea_BlisterPKG_1.png",
+    "/media/ELS_purple_jar_2ea_BlisterPKG_2.png",
+    "/media/ELS_RRP_Render.png",
+    "/media/ELS_RRP_show_Render.png",
+    "/media/20260911_200548.jpg",
+    "/media/엘립스 헤어에센스_260827_01.jpg"
   ],
-  "summary": "",
+  "summary": "이마트 트레이더스에 납품한 헤어 에센스 블리스터 패키지와 RRP를 디자인하였습니다.",
   "brand": "",
-  "period": "",
-  "contribution": null,
-  "media": "",
-  "role": "",
-  "tools": ""
+  "period": "2026.04",
+  "contribution": 100,
+  "media": "오프라인/인쇄,패키지",
+  "role": "디자인, 업체 핸들링, 리드타임 관리, 인쇄 감리",
+  "tools": "일러스트레이터"
 }
